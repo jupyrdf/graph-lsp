@@ -9,7 +9,7 @@ __all__ = [
 def _jupyter_labextension_paths():
     return [
         {
-            "src": "labextensions/@krassowski/jupyterlab-lsp",
-            "dest": "@krassowski/jupyterlab-lsp",
+            "src": "labextensions",
+            "dest": "@jupyrdf/graph-lsp",
         }
     ]

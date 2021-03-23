@@ -201,7 +201,7 @@ def task_setup():
             file_dep=file_dep,
             actions=[
                 [*P.APR_DEFAULT, *P.PIP, "install", *_install],
-                [*P.APR_DEFAULT, *P.PIP, "check"],
+                # [*P.APR_DEFAULT, *P.PIP, "check"],
             ],
         ),
         P.OK_PIP_INSTALL,

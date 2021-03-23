@@ -1,6 +1,14 @@
 name: graph-lsp
 
 commands:
+  lab:
+    description: launch lab
+    unix: &lab jupyter lab --no-browser --debug
+    windows: *lab
+  ext:pack:
+    description: ensure built tarballs, a little finicky
+    unix: mkdir -p dist && cd dist && npm pack ..
+    windows: md dist || echo "ok" && cd dist && npm pack ..
 env_specs:
   default:
     platforms:
@@ -14,6 +22,7 @@ env_specs:
     packages:
       - pip
       - python >=3.7,<3.8.0a0
+      - python-language-server
       - twine
       - wheel
   graph_lsp:
@@ -27,7 +36,7 @@ env_specs:
       - jupyterlab_widgets >=1.0.0
       - nodejs >=14,<15
       - python >=3.7
-      - jupyterlab-lsp >=3,<4
+      - jupyterlab-lsp >=3.5,<4
 
     platforms: &id001
       - linux-64

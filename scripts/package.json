@@ -1,0 +1,11 @@
+{
+  "devDependencies": {
+    "javascript-typescript-langserver": "^2.11.3",
+    "sparql-language-server": "^4.0.0",
+    "sql-language-server": "^0.12.0",
+    "stardog-graphql-language-server": "^2.0.0",
+    "turtle-language-server": "^3.0.0",
+    "vscode-json-languageserver-bin": "^1.0.1",
+    "yaml-language-server": "^0.15.0"
+  }
+}

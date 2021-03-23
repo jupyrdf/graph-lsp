@@ -150,7 +150,7 @@ $RECYCLE.BIN/
 
 **/node_modules/
 nbextension/static/index.*
-labextension/*.tgz
+labextensions
 **/.yarn-packages/
 
 # Coverage data

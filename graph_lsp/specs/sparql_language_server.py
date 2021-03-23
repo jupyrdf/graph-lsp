@@ -1,4 +1,4 @@
-from jupyterlab_lsp.specs.utils import NodeModuleSpec
+from jupyter_lsp.specs.utils import NodeModuleSpec
 
 REPO = (
     "https://github.com/stardog-union/stardog-language-servers/tree/master/packages/{}"

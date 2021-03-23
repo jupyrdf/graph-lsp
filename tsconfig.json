@@ -11,14 +11,15 @@
     "noEmitOnError": true,
     "noImplicitAny": true,
     "noUnusedLocals": true,
+    "outDir": "lib",
     "preserveWatchOutput": true,
     "resolveJsonModule": true,
-    "outDir": "lib",
     "rootDir": "src",
+    "skipLibCheck": true,
     "strict": true,
     "strictNullChecks": true,
-    "skipLibCheck": true,
     "target": "es2017",
+    "tsBuildInfoFile": "lib/.tsbuildinfo",
     "types": []
   },
   "include": ["src/**/*"]

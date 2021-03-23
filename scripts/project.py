@@ -174,7 +174,7 @@ PY_VERSION = re.findall(
 
 
 # built artifacts
-SDIST = DIST / f"{PY_PKG}-{PY_VERSION}.tar.gz"
+SDIST = DIST / f"{PY_PKG.replace('_', '-')}-{PY_VERSION}.tar.gz"
 WHEEL = DIST / f"{PY_PKG}-{PY_VERSION}-py3-none-any.whl"
 NPM_TGZ_STEM = JS_PKG.replace("@", "").replace("/", "-")
 NPM_TGZ = DIST / f"{NPM_TGZ_STEM}-{JS_VERSION_MANGLED}.tgz"
