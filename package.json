@@ -36,8 +36,9 @@
     "build": "jlpm build:ts && jlpm build:ext",
     "build:ts": "tsc -b",
     "build:ext": "jupyter labextension build .",
-    "clean": "rimraf ./lib ./py_src/ipyelk/schema/elkschema.json ./py_src/ipyelk/labextension",
-    "watch": "jlpm build:ts --watch --preserveWatchOutput",
+    "clean": "rimraf ./lib",
+    "watch:lib": "jlpm build:ts --watch --preserveWatchOutput",
+    "watch:ext": "jupyter labextension watch .",
     "lint": "jlpm prettier",
     "prettier": "prettier --write --list-different \"*.{json,yml,md}\" \"{src,style,py_src,.github,examples,docs}/**/*.{ts,tsx,js,jsx,css,json,md,yml}\""
   },

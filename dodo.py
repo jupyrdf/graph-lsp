@@ -488,17 +488,21 @@ if not P.TESTING_IN_CI:
         """watch typescript sources, launch lab, rebuilding as files change"""
 
         def _watch():
-            proc = subprocess.Popen(
-                list(map(str, [*P.APR_DEFAULT, *P.JLPM, "watch"])),
-                stdin=subprocess.PIPE,
+            lib = subprocess.Popen(
+                list(map(str, [*P.APR_DEFAULT, *P.JLPM, "watch:lib"]))
+            )
+            ext = subprocess.Popen(
+                list(map(str, [*P.APR_DEFAULT, *P.JLPM, "watch:ext"]))
             )
 
             try:
-                proc.wait()
+                lib.wait()
             except KeyboardInterrupt:
                 pass
+            finally:
+                lib.terminate()
+                ext.terminate()
 
-            proc.wait()
             return True
 
         return dict(
