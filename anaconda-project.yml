@@ -22,7 +22,6 @@ env_specs:
     packages:
       - pip
       - python >=3.7,<3.8.0a0
-      - python-language-server
       - twine
       - wheel
 
@@ -35,6 +34,7 @@ env_specs:
       - ipywidgets >=7.5.1,<8
       - jupyterlab >=3,<4
       - jupyterlab-lsp >=3.5,<4
+      - jupyter-lsp-python-plugins
       - nodejs >=14,<15
       - python >=3.7
       - rdflib >=5,<6

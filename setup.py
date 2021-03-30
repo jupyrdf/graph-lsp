@@ -2,7 +2,6 @@
 # Distributed under the terms of the Modified BSD License.
 
 import json
-import pprint
 from pathlib import Path
 
 HERE = Path(__file__).parent
@@ -16,7 +15,7 @@ INSTALL = SRC / "install.json"
 __js__ = json.loads(PKG.read_text(encoding="utf-8"))
 __install__ = json.loads(INSTALL.read_text(encoding="utf-8"))
 
-EXT_DEST = Path("share/jupyter/labextensions") / __js__["name"]
+EXT_DEST = Path("share/jupyter/labextension") / __js__["name"]
 
 
 DATA_FILES = [(str(EXT_DEST.as_posix()), ["jupyterlab_graph_lsp/install.json"])] + [
@@ -35,9 +34,6 @@ setup_args = dict(
     description=__js__["description"],
     data_files=DATA_FILES,
 )
-
-
-pprint.pprint(setup_args)
 
 
 if __name__ == "__main__":

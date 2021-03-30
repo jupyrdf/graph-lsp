@@ -8,9 +8,8 @@ channels:
 - nodefaults
 
 dependencies:
+- ipywidgets >=7.5.1,<8
+- jupyter-lsp-python-plugins
 - jupyterlab-lsp >=3.5,<4
 - nodejs >=14,<15
-- rdflib
-- jupyterlab >=3,<4
-- ipywidgets >=7.5.1,<8
 - rdflib >=5,<6
