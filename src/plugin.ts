@@ -11,6 +11,13 @@ export const plugin: JupyterFrontEndPlugin<void> = {
   id: PLUGIN_ID,
   requires: [ILSPCodeExtractorsManager, ICodeMirror],
   activate: (app, codeExtractors: ILSPCodeExtractorsManager, cm: ICodeMirror) => {
+    // ensures file type is available for documents
+    app.docRegistry.addFileType({
+      name: 'graphql',
+      mimeTypes: ['application/graphql'],
+      extensions: ['.graphql'],
+    });
+
     import('./modes')
       .then((modes) => {
         modes.graphqlMode(cm.CodeMirror);
