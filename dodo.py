@@ -217,7 +217,16 @@ def task_setup():
         yield _ok(
             dict(
                 name="labext",
-                actions=[[*P.APR_DEFAULT, *P.LAB_EXT, "develop", "--overwrite", "."]],
+                actions=[
+                    [
+                        *P.APR_DEFAULT,
+                        *P.LAB_EXT,
+                        "develop",
+                        ".",
+                        "--overwrite",
+                        "--debug",
+                    ]
+                ],
                 file_dep=[P.OK_PIP_INSTALL],
             ),
             P.OK_LABEXT,
