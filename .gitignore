@@ -150,7 +150,7 @@ $RECYCLE.BIN/
 
 **/node_modules/
 nbextension/static/index.*
-labextensions
+jupyterlab_graph_lsp/labextension
 **/.yarn-packages/
 
 # Coverage data

@@ -182,21 +182,8 @@ def preflight_release():
         if version not in changelog:
             problems += [f"- Not found in CHANGELOG.md: {version}"]
 
-    print("Checking widget spec versions...", flush=True)
-    tokens_ts = P.TS_SRC / "tokens.ts"
-    ts_version = re.findall(r"""VERSION = '(.*?)'""", tokens_ts.read_text())[0]
-    py_version = re.findall(
-        r"""EXTENSION_SPEC_VERSION = "([^"]+)""", P.VERSION_PY.read_text()
-    )[0]
-
-    if ts_version != py_version:
-        problems += [
-            "python EXTENSION_SPEC_VERSION do not match typescript VERSION"
-            f"\n> {py_version} vs {ts_version}"
-        ]
-
     print("Checking copyright/license headers...")
-    for any_src in [*P.ALL_PY, *P.ALL_CSS, *P.ALL_TS]:
+    for any_src in [*P.ALL_PY, *P.ALL_CSS, *P.ALL_TS, *P.ALL_YML, P.SETUP_CFG]:
         any_text = any_src.read_text()
         if COPYRIGHT not in any_text:
             problems += [f"{any_src.relative_to(P.ROOT)} missing copyright info"]

@@ -1,21 +1,24 @@
+# Copyright (c) 2021 Dane Freeman.
+# Distributed under the terms of the Modified BSD License.
+
 from jupyter_lsp.specs.utils import NodeModuleSpec
 
 URL = "https://github.com/stardog-union/stardog-language-servers/"
 
 
-class TurtleLanguageServer(NodeModuleSpec):
-    """Supports rdf turtle serialization"""
+class GRAPHQLLanguageServer(NodeModuleSpec):
+    """Supports GRAPHQL language"""
 
-    node_module = key = "turtle-language-server"
+    node_module = key = "stardog-graphql-language-server"
     script = ["dist", "cli.js"]
     languages = [
-        "turtle",
+        "graphql",
     ]
     args = ["--stdio"]
     spec = dict(
-        display_name=key,
+        display_name="graphql-language-server",
         mime_types=[
-            "text/turtle",
+            "application/graphql",
         ],
         urls=dict(
             home=URL + "tree/master/packages/{}".format(key),

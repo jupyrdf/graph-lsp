@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# Copyright (c) 2021 Dane Freeman.
+# Distributed under the terms of the Modified BSD License.
+
+jlpm bootstrap
+python3 -m pip install -e . --no-deps --ignore-installed
+jupyter labextension develop .
+jupyter labextension list

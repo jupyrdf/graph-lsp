@@ -16,7 +16,7 @@ import subprocess
 from hashlib import sha256
 
 from doit.action import CmdAction
-from doit.tools import PythonInteractiveAction, config_changed
+from doit.tools import PythonInteractiveAction, config_changed, create_folder
 
 from scripts import project as P
 from scripts import reporter
@@ -114,8 +114,6 @@ def task_preflight():
             name="release",
             file_dep=[
                 P.CHANGELOG,
-                P.VERSION_PY,
-                P.PACKAGE_JSON,
                 P.SDIST,
                 P.WHEEL,
                 P.NPM_TGZ,
@@ -189,10 +187,7 @@ def task_setup():
     ]
 
     if not P.TESTING_IN_CI:
-        file_dep += [
-            P.SETUP_CFG,
-            P.SETUP_PY,
-        ]
+        file_dep += [P.SETUP_CFG, P.MANIFEST_IN, P.SETUP_PY, P.EXT_PACKAGE_JSON]
 
     py_task = _ok(
         dict(
@@ -223,7 +218,7 @@ def task_setup():
             dict(
                 name="labext",
                 actions=[[*P.APR_DEFAULT, *P.LAB_EXT, "develop", "--overwrite", "."]],
-                file_dep=[P.NPM_TGZ, P.OK_PIP_INSTALL],
+                file_dep=[P.OK_PIP_INSTALL],
             ),
             P.OK_LABEXT,
         )
@@ -238,18 +233,21 @@ if not P.TESTING_IN_CI:
             name="ts",
             file_dep=[
                 *P.ALL_TS,
+                P.LICENSE,
                 P.OK_ENV["default"],
                 P.OK_PRETTIER,
+                P.PACKAGE_JSON,
+                P.README,
                 P.YARN_INTEGRITY,
             ],
             actions=[[*P.APR_DEFAULT, *P.JLPM, "build"]],
-            targets=[P.TSBUILDINFO],
+            targets=[P.TSBUILDINFO, P.EXT_PACKAGE_JSON],
         )
 
         yield dict(
             name="pack",
-            file_dep=[P.TSBUILDINFO, P.PACKAGE_JSON],
-            actions=[[*P.APR_DEFAULT, "ext:pack"]],
+            file_dep=[P.TSBUILDINFO, P.PACKAGE_JSON, P.LICENSE, P.README, *P.ALL_CSS],
+            actions=[(create_folder, [P.DIST]), [*P.APR_DEFAULT, "ext:pack"]],
             targets=[P.NPM_TGZ],
         )
 
@@ -257,11 +255,14 @@ if not P.TESTING_IN_CI:
             name="py",
             file_dep=[
                 *P.ALL_PY_SRC,
+                P.EXT_PACKAGE_JSON,
+                P.LICENSE,
+                P.MANIFEST_IN,
+                P.OK_ENV["default"],
+                P.OK_LINT,
+                P.README,
                 P.SETUP_CFG,
                 P.SETUP_PY,
-                P.OK_LINT,
-                P.OK_ENV["default"],
-                P.NPM_TGZ,
             ],
             actions=[
                 [*P.APR_DEFAULT, *P.PY, "setup.py", "sdist"],
@@ -373,7 +374,7 @@ if not P.TESTING_IN_CI:
         yield _ok(
             dict(
                 name="black",
-                file_dep=[*P.ALL_PY, P.OK_ENV["default"]],
+                file_dep=[*P.ALL_PY, P.OK_ENV["default"], P.SETUP_CFG],
                 actions=[
                     [*P.APR_DEFAULT, "isort", "--quiet", "--ac", *P.ALL_PY],
                     [*P.APR_DEFAULT, "black", "--quiet", *P.ALL_PY],
@@ -449,7 +450,10 @@ def task_lab():
 
     def lab():
         proc = subprocess.Popen(
-            list(map(str, [*P.APR_DEFAULT, "lab"])), stdin=subprocess.PIPE
+            list(
+                map(str, [*P.APR_DEFAULT, "jupyter", "lab", "--no-browser", "--debug"])
+            ),
+            stdin=subprocess.PIPE,
         )
 
         try:
@@ -476,7 +480,8 @@ if not P.TESTING_IN_CI:
 
         def _watch():
             proc = subprocess.Popen(
-                list(map(str, [*P.APR_DEFAULT, "watch"])), stdin=subprocess.PIPE
+                list(map(str, [*P.APR_DEFAULT, *P.JLPM, "watch"])),
+                stdin=subprocess.PIPE,
             )
 
             try:

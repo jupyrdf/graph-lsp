@@ -1,3 +1,6 @@
+// Copyright (c) 2021 Dane Freeman.
+// Distributed under the terms of the Modified BSD License.
+
 /**
  *  Copyright (c) 2021 GraphQL Contributors
  *  All rights reserved.
@@ -13,7 +16,7 @@ import {
   ParseRules,
   isIgnored,
   onlineParser,
-  State
+  State,
 } from 'graphql-language-service-parser';
 
 export function graphqlMode(_CodeMirror: typeof CodeMirror) {
@@ -37,12 +40,12 @@ export function graphqlMode(_CodeMirror: typeof CodeMirror) {
    * levels of the syntax tree and results in a structured `state` linked-list
    * which contains the relevant information to produce valuable typeaheads.
    */
-  _CodeMirror.defineMode('graphql', config => {
+  _CodeMirror.defineMode('graphql', (config) => {
     const parser = onlineParser({
-      eatWhitespace: stream => stream.eatWhile(isIgnored),
+      eatWhitespace: (stream) => stream.eatWhile(isIgnored),
       lexRules: LexRules,
       parseRules: ParseRules,
-      editorConfig: { tabSize: config.tabSize }
+      editorConfig: { tabSize: config.tabSize },
     });
 
     return {
@@ -55,8 +58,8 @@ export function graphqlMode(_CodeMirror: typeof CodeMirror) {
       lineComment: '#',
       closeBrackets: {
         pairs: '()[]{}""',
-        explode: '()[]{}'
-      }
+        explode: '()[]{}',
+      },
     };
   });
 
@@ -75,8 +78,7 @@ export function graphqlMode(_CodeMirror: typeof CodeMirror) {
     const level =
       !levels || levels.length === 0
         ? state.indentLevel
-        : levels[levels.length - 1] -
-          (this.electricInput?.test(textAfter) ? 1 : 0);
+        : levels[levels.length - 1] - (this.electricInput?.test(textAfter) ? 1 : 0);
     return (level || 0) * (this.config?.indentUnit || 0);
   }
 }

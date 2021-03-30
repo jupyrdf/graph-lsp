@@ -1,0 +1,3 @@
+include LICENSE jupyterlab_graph_lsp/install.json
+recursive-include jupyterlab_graph_lsp/labextension *.*
+recursive-exclude scripts *

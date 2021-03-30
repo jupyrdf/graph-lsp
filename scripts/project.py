@@ -13,7 +13,7 @@ import re
 import shutil
 from pathlib import Path
 
-PY_PKG = "graph_lsp"
+PY_PKG = "jupyterlab_graph_lsp"
 
 # platform
 PLATFORM = os.environ.get("FAKE_PLATFORM", platform.system())
@@ -44,6 +44,7 @@ ROOT = SCRIPTS.parent
 # top-level stuff
 SETUP_PY = ROOT / "setup.py"
 SETUP_CFG = ROOT / "setup.cfg"
+MANIFEST_IN = ROOT / "MANIFEST.in"
 NODE_MODULES = ROOT / "node_modules"
 PACKAGE_JSON = ROOT / "package.json"
 JS_PACKAGE_DATA = json.loads(PACKAGE_JSON.read_text(encoding="utf-8"))
@@ -67,7 +68,9 @@ PROJ_LOCK = ROOT / "anaconda-project-lock.yml"
 CHANGELOG = ROOT / "CHANGELOG.md"
 CONDARC = CI / ".condarc"
 README = ROOT / "README.md"
-POSTBUILD = ROOT / "postBuild"
+LICENSE = ROOT / "LICENSE"
+BINDER = ROOT / ".binder"
+POSTBUILD = BINDER / "postBuild"
 
 # tools
 PY = ["python"]
@@ -75,6 +78,7 @@ PYM = [*PY, "-m"]
 PIP = [*PYM, "pip"]
 
 JLPM = ["jlpm"]
+NPM = ["npm"]
 JLPM_INSTALL = [*JLPM, "--prefer-offline", "--frozen-lockfile"]
 PREFLIGHT = ["python", "-m", "scripts.preflight"]
 YARN = [shutil.which("yarn") or shutil.which("yarn.cmd")]
@@ -104,7 +108,6 @@ OK_ENV = {env: BUILD / f"prep_{env}.ok" for env in ["default", "atest"]}
 
 # python stuff
 PY_SRC = ROOT / PY_PKG
-VERSION_PY = PY_SRC / "_version.py"
 
 
 # js stuff
@@ -112,6 +115,7 @@ JS_LIB = ROOT / "lib"
 TSBUILDINFO = JS_LIB / ".tsbuildinfo"
 TS_SRC = ROOT / "src"
 STYLE = ROOT / "style"
+EXT_PACKAGE_JSON = PY_SRC / "labextension/package.json"
 
 # tests
 EXAMPLES = ROOT / "examples"
@@ -133,14 +137,14 @@ ALL_PY = [
     *SCRIPTS.rglob("*.py"),
     DODO,
     SETUP_PY,
-    POSTBUILD,
 ]
 ALL_YML = [*ROOT.glob("*.yml"), *CI.rglob("*.yml")]
 ALL_JSON = [*ROOT.glob("*.json"), *EXAMPLE_JSON]
 ALL_TS = [*TS_SRC.rglob("*.ts")]
 ALL_CSS = [*STYLE.rglob("*.css")]
+ALL_MD = [*ROOT.glob("*.md")]
 PRETTIER_IGNORE = ROOT / ".prettierignore"
-ALL_PRETTIER = [*ALL_YML, *ALL_JSON, *ALL_TS, *ALL_CSS]
+ALL_PRETTIER = [*ALL_YML, *ALL_JSON, *ALL_TS, *ALL_CSS, *ALL_MD]
 
 # built files
 OK_RELEASE = BUILD / "release.ok"
@@ -168,10 +172,7 @@ PYTEST_HTML = BUILD / "pytest.html"
 PYTEST_XUNIT = BUILD / "pytest.xunit.xml"
 
 # derived info
-PY_VERSION = re.findall(
-    r'''__version__ = "(.*)"''', VERSION_PY.read_text(encoding="utf-8")
-)[0]
-
+PY_VERSION = JS_PACKAGE_DATA["version"]
 
 # built artifacts
 SDIST = DIST / f"{PY_PKG.replace('_', '-')}-{PY_VERSION}.tar.gz"
