@@ -14,15 +14,11 @@ class SPARQLLanguageServer(NodeModuleSpec):
 
     node_module = key = "sparql-language-server"
     script = ["dist", "cli.js"]
-    languages = [
-        "sparql",
-    ]
+    languages = ["sparql", "rq"]
     args = ["--stdio"]
     spec = dict(
         display_name=key,
-        mime_types=[
-            "application/sparql",
-        ],
+        mime_types=["application/sparql", "application/sparql-query", "text/x-sparql"],
         urls=dict(
             home=REPO.format(key),
             issues="https://github.com/stardog-union/stardog-language-servers/issues",

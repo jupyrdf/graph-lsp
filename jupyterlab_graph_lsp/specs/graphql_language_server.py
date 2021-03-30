@@ -11,15 +11,11 @@ class GRAPHQLLanguageServer(NodeModuleSpec):
 
     node_module = key = "stardog-graphql-language-server"
     script = ["dist", "cli.js"]
-    languages = [
-        "graphql",
-    ]
+    languages = ["graphql"]
     args = ["--stdio"]
     spec = dict(
         display_name="graphql-language-server",
-        mime_types=[
-            "application/graphql",
-        ],
+        mime_types=["application/graphql", "text/x-graphql"],
         urls=dict(
             home=URL + "tree/master/packages/{}".format(key),
             issues=URL + "issues",
