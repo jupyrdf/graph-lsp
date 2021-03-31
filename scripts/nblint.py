@@ -56,9 +56,13 @@ def nblint_one(nb_node):
             )
             out, _err = prettier.communicate(source.encode("utf-8"))
             new = out.decode("utf-8").rstrip()
-            if new != source:
-                cell["source"] = new.splitlines(True)
-                changes += 1
+            if prettier.returncode != 0:
+                print("prettier failed", out, _err)
+            else:
+                if new != source:
+                    cell["source"] = new.splitlines(True)
+                    changes += 1
+
         elif cell_type == "code":
             if cell["outputs"] or cell["execution_count"]:
                 cell["outputs"] = []

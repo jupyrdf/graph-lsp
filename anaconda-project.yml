@@ -38,6 +38,7 @@ env_specs:
       - nodejs >=14,<15
       - python >=3.7
       - rdflib >=5,<6
+      - gql
 
   _lint:
     description: linting/formatting environment. not actually created.

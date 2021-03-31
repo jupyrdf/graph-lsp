@@ -165,3 +165,7 @@ jupyterlab_graph_lsp/labextension
 .doit*
 .pabotsuitenames
 atest/output
+*.tsbuildinfo
+
+# lsp stuff
+.virtual_documents/

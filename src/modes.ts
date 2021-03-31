@@ -10,7 +10,6 @@
  *  of patent rights can be found in the PATENTS file in the same directory.
  */
 
-import CodeMirror from 'codemirror';
 import {
   LexRules,
   ParseRules,
@@ -19,7 +18,10 @@ import {
   State,
 } from 'graphql-language-service-parser';
 
-export function graphqlMode(_CodeMirror: typeof CodeMirror) {
+export async function installModes(_CodeMirror: any) {
+  // await import('codemirror/mode/turtle/turtle');
+  // await import('codemirror/mode/sparql/sparql');
+
   /**
    * The GraphQL mode is defined as a tokenizer along with a list of rules, each
    * of which is either a function or an array.
@@ -40,7 +42,7 @@ export function graphqlMode(_CodeMirror: typeof CodeMirror) {
    * levels of the syntax tree and results in a structured `state` linked-list
    * which contains the relevant information to produce valuable typeaheads.
    */
-  _CodeMirror.defineMode('graphql', (config) => {
+  _CodeMirror.defineMode('graphql', (config: any) => {
     const parser = onlineParser({
       eatWhitespace: (stream) => stream.eatWhile(isIgnored),
       lexRules: LexRules,
@@ -61,6 +63,14 @@ export function graphqlMode(_CodeMirror: typeof CodeMirror) {
         explode: '()[]{}',
       },
     };
+  });
+
+  _CodeMirror.defineMIME('application/graphql', 'graphql');
+  _CodeMirror.modeInfo.push({
+    ext: ['graphql', '.graphql'],
+    mime: 'application/graphql',
+    mode: 'graphql',
+    name: 'graphql',
   });
 
   // Seems the electricInput type in @types/codemirror is wrong (i.e it is written as electricinput instead of electricInput)

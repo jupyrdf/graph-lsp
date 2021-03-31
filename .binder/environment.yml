@@ -13,3 +13,4 @@ dependencies:
 - jupyterlab-lsp >=3.5,<4
 - nodejs >=14,<15
 - rdflib >=5,<6
+- gql

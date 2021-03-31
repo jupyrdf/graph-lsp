@@ -112,7 +112,7 @@ PY_SRC = ROOT / PY_PKG
 
 # js stuff
 JS_LIB = ROOT / "lib"
-TSBUILDINFO = JS_LIB / ".tsbuildinfo"
+TSBUILDINFO = ROOT / ".tsbuildinfo"
 TS_SRC = ROOT / "src"
 STYLE = ROOT / "style"
 EXT_PACKAGE_JSON = PY_SRC / "labextension/package.json"

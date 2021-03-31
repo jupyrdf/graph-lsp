@@ -414,7 +414,7 @@ if not P.TESTING_IN_CI:
                     config_changed(
                         dict(
                             conf=P.JS_PACKAGE_DATA["prettier"],
-                            script=P.JS_PACKAGE_DATA["scripts"]["prettier"],
+                            script=P.JS_PACKAGE_DATA["scripts"]["lint:prettier"],
                         )
                     )
                 ],
@@ -424,7 +424,7 @@ if not P.TESTING_IN_CI:
                     P.PRETTIER_IGNORE,
                     P.YARN_INTEGRITY,
                 ],
-                actions=[[*P.APR_DEFAULT, "npm", "run", "prettier"]],
+                actions=[[*P.APR_DEFAULT, *P.JLPM, "lint:prettier"]],
             ),
             P.OK_PRETTIER,
         )

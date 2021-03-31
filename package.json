@@ -40,7 +40,7 @@
     "watch:lib": "jlpm build:ts --watch --preserveWatchOutput",
     "watch:ext": "jupyter labextension watch .",
     "lint": "jlpm prettier",
-    "prettier": "prettier --write --list-different \"*.{json,yml,md}\" \"{src,style,py_src,.github,examples,docs}/**/*.{ts,tsx,js,jsx,css,json,md,yml}\""
+    "lint:prettier": "prettier --write --list-different \"*.{json,yml,md}\" \"{src,style,py_src,.github,examples,docs}/**/*.{ts,tsx,js,jsx,css,json,md,yml}\""
   },
   "dependencies": {
     "@jupyterlab/application": "^3.0.0",
@@ -49,12 +49,15 @@
     "codemirror-graphql": "^1.0.0",
     "graphql": "^15.5.0"
   },
+  "peerDependencies": {
+    "codemirror": "~5.57.0"
+  },
   "devDependencies": {
     "@types/codemirror": "^0.0.74",
     "@jupyterlab/builder": "^3.0.0",
     "@typescript-eslint/eslint-plugin": "^4.8.1",
     "@typescript-eslint/parser": "^4.8.1",
-    "codemirror": "*",
+    "codemirror": "~5.57.0",
     "prettier": "^2.1.2",
     "rimraf": "^3.0.2",
     "sparql-language-server": "^4.0.0",

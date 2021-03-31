@@ -19,7 +19,7 @@
     "strict": true,
     "strictNullChecks": true,
     "target": "es2017",
-    "tsBuildInfoFile": "lib/.tsbuildinfo",
+    "tsBuildInfoFile": ".tsbuildinfo",
     "types": []
   },
   "include": ["src/**/*"]
