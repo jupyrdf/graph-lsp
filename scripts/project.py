@@ -184,6 +184,15 @@ HASH_DEPS = sorted([SDIST, NPM_TGZ, WHEEL])
 SHA256SUMS = DIST / "SHA256SUMS"
 
 
+# servers
+SERVERS = PY_SRC / "servers"
+SERVER_STATIC = SERVERS / "static"
+BUNDLED_SERVERS = [
+    "turtle-language-server",
+    "stardog-graphql-language-server",
+    "sparql-language-server",
+]
+
 # robot testing
 ATEST = ROOT / "atest"
 ALL_ROBOT = [*ATEST.rglob("*.robot")]

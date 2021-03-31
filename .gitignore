@@ -169,3 +169,7 @@ atest/output
 
 # lsp stuff
 .virtual_documents/
+
+# pre-built servers
+
+jupyterlab_graph_lsp/servers/static/

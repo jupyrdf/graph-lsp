@@ -12,6 +12,7 @@
 
 import json
 import os
+import shutil
 import subprocess
 from hashlib import sha256
 
@@ -188,6 +189,9 @@ def task_setup():
 
     if not P.TESTING_IN_CI:
         file_dep += [P.SETUP_CFG, P.MANIFEST_IN, P.SETUP_PY, P.EXT_PACKAGE_JSON]
+        file_dep += [
+            P.SERVER_STATIC / server / "package.json" for server in P.BUNDLED_SERVERS
+        ]
 
     py_task = _ok(
         dict(
@@ -260,6 +264,33 @@ if not P.TESTING_IN_CI:
             targets=[P.NPM_TGZ],
         )
 
+        deployed_servers = []
+
+        def _copy_with_no_return(src, dest):
+            shutil.copytree(src, dest)
+
+        for server in P.BUNDLED_SERVERS:
+            deployed_servers += [P.SERVER_STATIC / server / "package.json"]
+            yield dict(
+                name=f"server:{server}",
+                file_dep=[P.NODE_MODULES / server / "package.json", P.YARN_INTEGRITY],
+                targets=[P.SERVER_STATIC / server / "package.json"],
+                actions=[
+                    (create_folder, [P.SERVER_STATIC]),
+                    (
+                        shutil.rmtree,
+                        [P.SERVER_STATIC / server],
+                        dict(ignore_errors=True),
+                    ),
+                    (
+                        (
+                            _copy_with_no_return,
+                            [P.NODE_MODULES / server, P.SERVER_STATIC / server],
+                        )
+                    ),
+                ],
+            )
+
         yield dict(
             name="py",
             file_dep=[
@@ -272,6 +303,7 @@ if not P.TESTING_IN_CI:
                 P.README,
                 P.SETUP_CFG,
                 P.SETUP_PY,
+                *deployed_servers,
             ],
             actions=[
                 [*P.APR_DEFAULT, *P.PY, "setup.py", "sdist"],
