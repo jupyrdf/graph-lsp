@@ -16,7 +16,7 @@ class TurtleLanguageServer(NodeModuleSpec):
     args = ["--stdio"]
     spec = dict(
         display_name=key,
-        mime_types=["text/turtle", "text/x-turtle"],
+        mime_types=["text/turtle"],
         urls=dict(
             home=URL + "tree/master/packages/{}".format(key),
             issues=URL + "issues",

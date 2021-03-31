@@ -8,7 +8,7 @@ import {
   ILSPFeatureManager,
 } from '@krassowski/jupyterlab-lsp';
 import { graphExtractors } from './extractors';
-import { PLUGIN_ID } from './tokens';
+import { PLUGIN_ID, graphqlIcon, sparqlIcon, sparulIcon, turtleIcon } from './tokens';
 import { patchSyntaxMode } from './patches';
 
 export const plugin: JupyterFrontEndPlugin<void> = {
@@ -29,9 +29,28 @@ export const plugin: JupyterFrontEndPlugin<void> = {
 
     /* do lab-specific files */
     app.docRegistry.addFileType({
-      name: 'graphql',
+      name: 'GraphQL',
       mimeTypes: ['application/graphql'],
       extensions: ['.graphql'],
+      icon: graphqlIcon,
+    });
+    app.docRegistry.addFileType({
+      name: 'SPARQL',
+      mimeTypes: ['application/sparql-query'],
+      extensions: ['.sparql'],
+      icon: sparqlIcon,
+    });
+    app.docRegistry.addFileType({
+      name: 'SPARUL',
+      mimeTypes: ['application/sparql-update'],
+      extensions: ['.sparul'],
+      icon: sparulIcon,
+    });
+    app.docRegistry.addFileType({
+      name: 'Turtle',
+      mimeTypes: ['text/turtle'],
+      extensions: ['.ttl'],
+      icon: turtleIcon,
     });
 
     /* install lsp extractors for magics */

@@ -53,8 +53,8 @@
     "codemirror": "~5.57.0"
   },
   "devDependencies": {
-    "@types/codemirror": "^0.0.74",
     "@jupyterlab/builder": "^3.0.0",
+    "@types/codemirror": "^0.0.74",
     "@typescript-eslint/eslint-plugin": "^4.8.1",
     "@typescript-eslint/parser": "^4.8.1",
     "codemirror": "~5.57.0",

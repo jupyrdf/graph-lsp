@@ -6,3 +6,8 @@
 
 declare module 'codemirror/mode/sparql/sparql' {}
 declare module 'codemirror/mode/turtle/turtle' {}
+
+declare module '*.svg' {
+  const script: string;
+  export default script;
+}

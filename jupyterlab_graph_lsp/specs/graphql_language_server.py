@@ -15,7 +15,7 @@ class GRAPHQLLanguageServer(NodeModuleSpec):
     args = ["--stdio"]
     spec = dict(
         display_name="graphql-language-server",
-        mime_types=["application/graphql", "text/x-graphql"],
+        mime_types=["application/graphql"],
         urls=dict(
             home=URL + "tree/master/packages/{}".format(key),
             issues=URL + "issues",
