@@ -45,7 +45,7 @@
   "dependencies": {
     "@jupyterlab/application": "^3.0.0",
     "@jupyterlab/codemirror": "^3.0.0",
-    "@krassowski/jupyterlab-lsp": "^3.5.0",
+    "@krassowski/jupyterlab-lsp": "^3.7.0",
     "codemirror-graphql": "^1.0.0",
     "graphql": "^15.5.0"
   },
