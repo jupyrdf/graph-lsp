@@ -15,7 +15,7 @@ INSTALL = SRC / "install.json"
 __js__ = json.loads(PKG.read_text(encoding="utf-8"))
 __install__ = json.loads(INSTALL.read_text(encoding="utf-8"))
 
-EXT_DEST = Path("share/jupyter/labextension") / __js__["name"]
+EXT_DEST = Path("share/jupyter/labextensions") / __js__["name"]
 
 
 DATA_FILES = [(str(EXT_DEST.as_posix()), ["jupyterlab_graph_lsp/install.json"])] + [
