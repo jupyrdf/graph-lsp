@@ -1,15 +1,16 @@
 # Copyright (c) 2021 Dane Freeman.
 # Distributed under the terms of the Modified BSD License.
 
-from jupyter_lsp.specs.utils import NodeModuleSpec
+from jupyter_lsp.specs.utils import PythonModuleSpec
 
 URL = "https://github.com/stardog-union/stardog-language-servers/"
 
 
-class GRAPHQLLanguageServer(NodeModuleSpec):
+class GRAPHQLLanguageServer(PythonModuleSpec):
     """Supports GRAPHQL language"""
 
-    node_module = key = "stardog-graphql-language-server"
+    python_module = "jupyterlab_graph_lsp.servers.graphql"
+    key = "stardog-graphql-language-server"
     script = ["dist", "cli.js"]
     languages = ["graphql"]
     args = ["--stdio"]

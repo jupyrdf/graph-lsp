@@ -2,16 +2,16 @@
 # Distributed under the terms of the Modified BSD License.
 
 
-from jupyter_lsp.specs.utils import NodeModuleSpec
+from jupyter_lsp.specs.utils import PythonModuleSpec
 
 URL = "https://github.com/stardog-union/stardog-language-servers/"
 
 
-class TurtleLanguageServer(NodeModuleSpec):
+class TurtleLanguageServer(PythonModuleSpec):
     """Supports rdf turtle serialization"""
 
-    node_module = key = "turtle-language-server"
-    script = ["dist", "cli.js"]
+    python_module = "jupyterlab_graph_lsp.servers.turtle"
+    key = "turtle-language-server"
     languages = ["turtle"]
     args = ["--stdio"]
     spec = dict(
@@ -20,10 +20,5 @@ class TurtleLanguageServer(NodeModuleSpec):
         urls=dict(
             home=URL + "tree/master/packages/{}".format(key),
             issues=URL + "issues",
-        ),
-        install=dict(
-            npm="npm install --save-dev {}".format(key),
-            yarn="yarn add --dev {}".format(key),
-            jlpm="jlpm add --dev {}".format(key),
         ),
     )

@@ -2,17 +2,18 @@
 # Distributed under the terms of the Modified BSD License.
 
 
-from jupyter_lsp.specs.utils import NodeModuleSpec
+from jupyter_lsp.specs.utils import PythonModuleSpec
 
 REPO = (
     "https://github.com/stardog-union/stardog-language-servers/tree/master/packages/{}"
 )
 
 
-class SPARQLLanguageServer(NodeModuleSpec):
+class SPARQLLanguageServer(PythonModuleSpec):
     """Supports SPARQL language"""
 
-    node_module = key = "sparql-language-server"
+    python_module = "jupyterlab_graph_lsp.servers.sparql"
+    key = "sparql-language-server"
     script = ["dist", "cli.js"]
     languages = ["sparql", "sparul"]
     args = ["--stdio"]
