@@ -1,47 +1,45 @@
-name: graph-lsp
+# Copyright (c) 2021 Dane Freeman.
+# Distributed under the terms of the Modified BSD License.
+
+name: jupyterlab-graph-lsp
+
+platforms:
+  - linux-64
+  - osx-64
+  - win-64
 
 commands:
-  lab:
-    description: launch lab
-    unix: &lab jupyter lab --no-browser --debug
-    windows: *lab
   ext:pack:
-    description: ensure built tarballs, a little finicky
-    unix: mkdir -p dist && cd dist && npm pack ..
-    windows: md dist || echo "ok" && cd dist && npm pack ..
+    unix: &pack cd dist && npm pack ..
+    windows: *pack
+
 env_specs:
   default:
-    platforms:
-      - linux-64
-      - osx-64
-      - win-64
     inherit_from:
-      - graph_lsp
+      - jupyterlab_graph_lsp
       - _utest
       - _lint
     packages:
       - pip
       - python >=3.7,<3.8.0a0
-      - python-language-server
       - twine
       - wheel
-  graph_lsp:
-    description: binder environment
+
+  jupyterlab_graph_lsp:
+    description: binder environment, not actually created
     channels:
       - https://conda.anaconda.org/conda-forge
     packages:
       - ipython >=7
-      - ipywidgets >=7.5.1
+      - ipywidgets >=7.5.1,<8
       - jupyterlab >=3,<4
-      - jupyterlab_widgets >=1.0.0
+      - jupyterlab-lsp >=3.5,<4
+      - jupyter-lsp-python-plugins
       - nodejs >=14,<15
       - python >=3.7
-      - jupyterlab-lsp >=3.5,<4
+      - rdflib >=5,<6
+      - gql
 
-    platforms: &id001
-      - linux-64
-      - osx-64
-      - win-64
   _lint:
     description: linting/formatting environment. not actually created.
     packages:
@@ -50,7 +48,6 @@ env_specs:
       - pyflakes
       - flake8
 
-    platforms: *id001
   _utest:
     description: unit test environment. not actually created.
     packages:
@@ -58,4 +55,3 @@ env_specs:
       - pytest-cov
       - pytest-html
       - pytest-xdist
-    platforms: *id001

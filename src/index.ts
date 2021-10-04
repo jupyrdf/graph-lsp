@@ -1,9 +1,4 @@
-import { JupyterFrontEndPlugin } from '@jupyterlab/application';
-import { DEFAULT_TRANSCLUSIONS } from './transclusions/defaults';
+// Copyright (c) 2021 Dane Freeman.
+// Distributed under the terms of the Modified BSD License.
 
-const plugins: JupyterFrontEndPlugin<any>[] = [...DEFAULT_TRANSCLUSIONS];
-
-/**
- * Export the plugins as default.
- */
-export default plugins;
+export * from './tokens';

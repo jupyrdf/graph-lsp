@@ -1,5 +1,9 @@
-# jupyterlab-lsp
+# jupyterlab-graph-lsp
 
-See [jupyterlab-lsp](https://github.com/krassowski/jupyterlab-lsp) for details.
+> Graph Language Server extensions for jupyterlab-lsp
 
-> Note: this README file is a placeholder and should be replaced with the README from the top level before packaging.
+---
+
+> Copyright (c) 2021 Dane Freeman.
+>
+> Distributed under the terms of the Modified BSD License.

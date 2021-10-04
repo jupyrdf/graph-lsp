@@ -150,7 +150,7 @@ $RECYCLE.BIN/
 
 **/node_modules/
 nbextension/static/index.*
-labextensions
+jupyterlab_graph_lsp/labextension
 **/.yarn-packages/
 
 # Coverage data
@@ -165,3 +165,11 @@ labextensions
 .doit*
 .pabotsuitenames
 atest/output
+*.tsbuildinfo
+
+# lsp stuff
+.virtual_documents/
+
+# pre-built servers
+
+jupyterlab_graph_lsp/servers/static/

@@ -1,3 +1,6 @@
+// Copyright (c) 2021 Dane Freeman.
+// Distributed under the terms of the Modified BSD License.
+
 // Type definitions for CodeMirror
 // Project: https://github.com/marijnh/CodeMirror
 // Definitions by: mihailik <https://github.com/mihailik>
@@ -14,11 +17,7 @@ declare module 'codemirror' {
    * id will be the id for the defined mode. Typically, you should use this second argument to defineMode as your module scope function
    * (modes should not leak anything into the global scope!), i.e. write your whole mode inside this function.
    */
-  function defineMode(
-    id: string,
-    modefactory: ModeFactory<any>,
-    base: any
-  ): void;
+  function defineMode(id: string, modefactory: ModeFactory<any>, base: any): void;
 
   /**
    * Define a mimetype.
@@ -84,11 +83,7 @@ declare module 'codemirror' {
     mime: string;
   }
 
-  function runMode(
-    code: string,
-    mode: modespec | string,
-    el: HTMLElement
-  ): void;
+  function runMode(code: string, mode: modespec | string, el: HTMLElement): void;
 
   function findModeByName(name: string): modespec;
   function findModeByExtension(name: string): modespec;
