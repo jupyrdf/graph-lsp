@@ -15,7 +15,7 @@ class SPARQLLanguageServer(PythonModuleSpec):
     python_module = "jupyterlab_graph_lsp.servers.sparql"
     key = "sparql-language-server"
     script = ["dist", "cli.js"]
-    languages = ["sparql", "sparul"]
+    languages = ["sparql", "sparul", "sparql-query", "sparql-update"]
     args = ["--stdio"]
     spec = dict(
         display_name=key,
