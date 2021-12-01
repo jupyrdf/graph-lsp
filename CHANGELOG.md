@@ -1,8 +1,9 @@
 # CHANGELOG
+
 ## jupyterlab_graph_lsp 0.1.2
 
-- Add `sparql-query` and `sparql-update` to sparql language server spec to
-  launch sparql lsp when opening `.sparql` and `.sparul` files.
+- Add `sparql-query` and `sparql-update` to sparql language server spec to launch sparql
+  lsp when opening `.sparql` and `.sparul` files.
 
 ## @jupyrdf/jupyterlab-graph-lsp 0.1.2
 
