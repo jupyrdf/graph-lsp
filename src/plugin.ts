@@ -9,7 +9,6 @@ import {
 } from '@krassowski/jupyterlab-lsp';
 import { graphExtractors } from './extractors';
 import { PLUGIN_ID, graphqlIcon, sparqlIcon, sparulIcon, turtleIcon } from './tokens';
-import { patchSyntaxMode } from './patches';
 
 export const plugin: JupyterFrontEndPlugin<void> = {
   id: PLUGIN_ID,
@@ -21,7 +20,6 @@ export const plugin: JupyterFrontEndPlugin<void> = {
     lspf: ILSPFeatureManager
   ) => {
     // ensures file type is available for documents
-    patchSyntaxMode(cm, lspf);
     const { installModes } = await import('./modes');
 
     console.warn(lspf);
@@ -41,7 +39,7 @@ export const plugin: JupyterFrontEndPlugin<void> = {
       icon: sparqlIcon,
     });
     app.docRegistry.addFileType({
-      name: 'SPARUL',
+      name: 'sparul',
       mimeTypes: ['application/sparql-update'],
       extensions: ['.sparul'],
       icon: sparulIcon,

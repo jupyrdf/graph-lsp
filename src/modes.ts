@@ -91,4 +91,11 @@ export async function installModes(_CodeMirror: any) {
         : levels[levels.length - 1] - (this.electricInput?.test(textAfter) ? 1 : 0);
     return (level || 0) * (this.config?.indentUnit || 0);
   }
+
+  _CodeMirror.modeInfo.push({
+    ext: ['sparul', '.sparul'],
+    mime: 'application/sparql-query',
+    mode: 'sparql',
+    name: 'sparul',
+  });
 }
