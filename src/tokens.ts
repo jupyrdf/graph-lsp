@@ -2,7 +2,8 @@
 // Distributed under the terms of the Modified BSD License.
 
 export const NS = '@jupyrdf/jupyterlab-graph-lsp';
-export const PLUGIN_ID = `${NS}:ipython-graph`;
+export const EXTRACTOR_PLUGIN_ID = `${NS}:ipython-graph`;
+export const MODES_PLUGIN_ID = `${NS}:modes`;
 
 import { LabIcon } from '@jupyterlab/ui-components';
 

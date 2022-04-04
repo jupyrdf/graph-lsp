@@ -8,21 +8,40 @@ import {
   ILSPFeatureManager,
 } from '@krassowski/jupyterlab-lsp';
 import { graphExtractors } from './extractors';
-import { PLUGIN_ID, graphqlIcon, sparqlIcon, sparulIcon, turtleIcon } from './tokens';
+import { MODES_PLUGIN_ID, EXTRACTOR_PLUGIN_ID, graphqlIcon, sparqlIcon, sparulIcon, turtleIcon } from './tokens';
 
-export const plugin: JupyterFrontEndPlugin<void> = {
-  id: PLUGIN_ID,
-  requires: [ICodeMirror, ILSPCodeExtractorsManager, ILSPFeatureManager],
+export const extractorPlugin: JupyterFrontEndPlugin<void> = {
+  id: EXTRACTOR_PLUGIN_ID,
+  requires: [ILSPCodeExtractorsManager, ILSPFeatureManager],
+  activate: async (
+    app,
+    codeExtractors: ILSPCodeExtractorsManager,
+    lspf: ILSPFeatureManager
+  ) => {
+    /* install lsp extractors for magics */
+    const promises = [];
+    for (const [language, extractors] of Object.entries(graphExtractors)) {
+      for (const extractor of extractors) {
+        codeExtractors.register(extractor, language);
+        promises.push(Mode.ensure(extractor.language));
+      }
+    }
+
+    Promise.all(promises).then((results) => console.table(results)).catch(console.warn);
+  },
+};
+
+export const modesPlugin: JupyterFrontEndPlugin<void> = {
+  id: MODES_PLUGIN_ID,
+  autoStart: true,
+  requires: [ICodeMirror],
   activate: async (
     app,
     cm: ICodeMirror,
-    codeExtractors: ILSPCodeExtractorsManager,
-    lspf: ILSPFeatureManager
   ) => {
     // ensures file type is available for documents
     const { installModes } = await import('./modes');
 
-    console.warn(lspf);
     await installModes(cm.CodeMirror);
 
     /* do lab-specific files */
@@ -50,19 +69,7 @@ export const plugin: JupyterFrontEndPlugin<void> = {
       extensions: ['.ttl'],
       icon: turtleIcon,
     });
-
-    /* install lsp extractors for magics */
-    const promises = [];
-    for (const [language, extractors] of Object.entries(graphExtractors)) {
-      for (const extractor of extractors) {
-        codeExtractors.register(extractor, language);
-        promises.push(Mode.ensure(extractor.language));
-      }
-    }
-
-    console.table(await Promise.all(promises));
   },
-  autoStart: true,
 };
 
-export default plugin;
+export default [modesPlugin, extractorPlugin];
