@@ -8,7 +8,7 @@ import {
   ILSPFeatureManager,
 } from '@krassowski/jupyterlab-lsp';
 import { graphExtractors } from './extractors';
-import { MODES_PLUGIN_ID, EXTRACTOR_PLUGIN_ID, graphqlIcon, sparqlIcon, sparulIcon, turtleIcon } from './tokens';
+import { MODES_PLUGIN_ID, EXTRACTOR_PLUGIN_ID, graphqlIcon, sparqlIcon, sparulIcon, turtleIcon, DEBUG } from './tokens';
 
 export const extractorPlugin: JupyterFrontEndPlugin<void> = {
   id: EXTRACTOR_PLUGIN_ID,
@@ -18,7 +18,12 @@ export const extractorPlugin: JupyterFrontEndPlugin<void> = {
     codeExtractors: ILSPCodeExtractorsManager,
     lspf: ILSPFeatureManager
   ) => {
-    /* install lsp extractors for magics */
+    // rely on LSPF to ensure plugin ordering
+    if (DEBUG) {
+      console.warn('loaded LSP features', lspf);
+    }
+
+    // install lsp extractors for magics
     const promises = [];
     for (const [language, extractors] of Object.entries(graphExtractors)) {
       for (const extractor of extractors) {
@@ -39,12 +44,12 @@ export const modesPlugin: JupyterFrontEndPlugin<void> = {
     app,
     cm: ICodeMirror,
   ) => {
-    // ensures file type is available for documents
+    // ensures file type are available for documents
     const { installModes } = await import('./modes');
 
     await installModes(cm.CodeMirror);
 
-    /* do lab-specific files */
+    // add lab-specific files
     app.docRegistry.addFileType({
       name: 'GraphQL',
       mimeTypes: ['application/graphql'],

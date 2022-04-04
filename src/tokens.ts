@@ -27,3 +27,5 @@ export const sparulIcon = new LabIcon({
     .replace(BASE_COLOR_CLASS, 'jp-icon-contrast2'),
   name: `${NS}:sparul`,
 });
+
+export const DEBUG = window.location.href.indexOf('GRAPH_LSP_DEBUG') > -1;
