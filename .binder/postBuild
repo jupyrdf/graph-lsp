@@ -4,7 +4,10 @@
 # Distributed under the terms of the Modified BSD License.
 set -eux
 
-jlpm bootstrap
-python3 -m pip install -e . --no-deps --ignore-installed
+doit -n8 dist
+
+python3 -m pip install -vv -e . --no-deps --ignore-installed
+
 jupyter labextension develop . --overwrite
+
 jupyter labextension list

@@ -32,7 +32,6 @@
     "url": "https://github.com/jupyrdf/graph-lsp.git"
   },
   "scripts": {
-    "bootstrap": "jlpm && jlpm clean && jlpm build",
     "build": "jlpm build:ts && jlpm build:ext",
     "build:ts": "tsc -b",
     "build:ext": "jupyter labextension build .",

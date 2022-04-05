@@ -8,6 +8,8 @@ channels:
 - nodefaults
 
 dependencies:
+- anaconda-project
+- doit
 - gql
 - ipywidgets >=7.5.1,<8
 - jupyter-lsp-python-plugins
