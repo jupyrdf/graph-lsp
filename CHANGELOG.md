@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## jupyterlab_graph_lsp 0.2.0
+
+- splits codemirror modes and magic extractors into separate plugins
+- adds proper CLI for all bundled language servers
+
 ## jupyterlab_graph_lsp 0.1.2
 
 - Add `sparql-query` and `sparql-update` to sparql language server spec to launch sparql
