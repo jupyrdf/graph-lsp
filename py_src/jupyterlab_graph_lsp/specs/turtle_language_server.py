@@ -4,7 +4,7 @@
 
 from jupyter_lsp.specs.utils import PythonModuleSpec
 
-URL = "https://github.com/stardog-union/stardog-language-servers/"
+URL = "https://github.com/stardog-union/stardog-language-servers"
 
 
 class TurtleLanguageServer(PythonModuleSpec):
@@ -18,7 +18,7 @@ class TurtleLanguageServer(PythonModuleSpec):
         display_name=key,
         mime_types=["text/turtle"],
         urls=dict(
-            home=URL + "tree/master/packages/{}".format(key),
-            issues=URL + "issues",
+            home=f"{URL}/tree/master/packages/{key}",
+            issues=f"{URL}/issues",
         ),
     )

@@ -4,9 +4,7 @@
 
 from jupyter_lsp.specs.utils import PythonModuleSpec
 
-REPO = (
-    "https://github.com/stardog-union/stardog-language-servers/tree/master/packages/{}"
-)
+REPO = "https://github.com/stardog-union/stardog-language-servers"
 
 
 class SPARQLLanguageServer(PythonModuleSpec):
@@ -21,12 +19,12 @@ class SPARQLLanguageServer(PythonModuleSpec):
         display_name=key,
         mime_types=["application/sparql-query", "application/sparql-update"],
         urls=dict(
-            home=REPO.format(key),
-            issues="https://github.com/stardog-union/stardog-language-servers/issues",
+            home=f"{REPO}/tree/master/packages/{key}",
+            issues=f"{REPO}/issues",
         ),
         install=dict(
-            npm="npm install --save-dev {}".format(key),
-            yarn="yarn add --dev {}".format(key),
-            jlpm="jlpm add --dev {}".format(key),
+            npm=f"npm install --save-dev {key}",
+            yarn=f"yarn add --dev {key}",
+            jlpm=f"jlpm add --dev {key}",
         ),
     )

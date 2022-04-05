@@ -3,7 +3,7 @@
 
 from jupyter_lsp.specs.utils import PythonModuleSpec
 
-URL = "https://github.com/stardog-union/stardog-language-servers/"
+URL = "https://github.com/stardog-union/stardog-language-servers"
 
 
 class GRAPHQLLanguageServer(PythonModuleSpec):
@@ -18,12 +18,12 @@ class GRAPHQLLanguageServer(PythonModuleSpec):
         display_name="graphql-language-server",
         mime_types=["application/graphql"],
         urls=dict(
-            home=URL + "tree/master/packages/{}".format(key),
-            issues=URL + "issues",
+            home=f"{URL}/tree/master/packages/{key}",
+            issues=f"{URL}/issues",
         ),
         install=dict(
-            npm="npm install --save-dev {}".format(key),
-            yarn="yarn add --dev {}".format(key),
-            jlpm="jlpm add --dev {}".format(key),
+            npm=f"npm install --save-dev {key}",
+            yarn=f"yarn add --dev {key}",
+            jlpm=f"jlpm add --dev {key}",
         ),
     )
