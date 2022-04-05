@@ -71,7 +71,7 @@
   },
   "jupyterlab": {
     "extension": "lib/plugin.js",
-    "outputDir": "./jupyterlab_graph_lsp/labextension",
+    "outputDir": "./py_src/jupyterlab_graph_lsp/labextension",
     "sharedPackages": {
       "graphql": {
         "bundled": true
