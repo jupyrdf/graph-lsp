@@ -4,10 +4,12 @@
 # Distributed under the terms of the Modified BSD License.
 set -eux
 
-doit -n8 dist
+doit -n8 dist || doit dist
 
 python3 -m pip install -vv -e . --no-deps --ignore-installed
 
 jupyter labextension develop . --overwrite
 
 jupyter labextension list
+
+cp .binder/jupyter_config.json .

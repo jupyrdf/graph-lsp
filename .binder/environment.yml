@@ -4,18 +4,20 @@
 name: jupyterlab-graph-lsp
 
 channels:
-- conda-forge
-- nodefaults
+  - conda-forge
+  - nodefaults
 
 dependencies:
-- anaconda-project
-- doit
-- gql
-- ipywidgets >=7.5.1,<8
-- jupyter-lsp-python-plugins
-- jupyterlab-lsp >=3.5,<4
-- nodejs >=14,!=15.*,<17
-- oxrdflib
-- pyshacl
-- rdflib >=6,<7
-- reasonable
+  - anaconda-project
+  - doit
+  - gql
+  - ipywidgets >=7.5.1,<8
+  - jupyter-lsp-python-plugins
+  - jupyterlab >=3.3.2,<4
+  - jupyterlab-link-share
+  - jupyterlab-lsp >=3.5,<4
+  - nodejs >=14,!=15.*,<17
+  - oxrdflib
+  - pyshacl
+  - rdflib >=6,<7
+  - reasonable

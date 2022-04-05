@@ -40,7 +40,7 @@
     "watch:lib": "jlpm build:ts --watch --preserveWatchOutput",
     "watch:ext": "jupyter labextension watch .",
     "lint": "jlpm prettier",
-    "lint:prettier": "prettier --write --list-different \"*.{json,yml,md}\" \"{src,style,py_src,.github,examples,docs}/**/*.{ts,tsx,js,jsx,css,json,md,yml}\""
+    "lint:prettier": "prettier --write --list-different \"*.{json,yml,md}\" \"{src,style,py_src,.github,.binder,examples,docs}/**/*.{ts,tsx,js,jsx,css,json,md,yml}\""
   },
   "dependencies": {
     "@jupyterlab/application": "^3.0.0",
