@@ -32,11 +32,11 @@
     "url": "https://github.com/jupyrdf/graph-lsp.git"
   },
   "scripts": {
-    "bootstrap": "jlpm --prefer-offline --ignore-optional --ignore-scripts && jlpm clean && jlpm schema && jlpm lint && jlpm build",
+    "bootstrap": "jlpm && jlpm clean && jlpm build",
     "build": "jlpm build:ts && jlpm build:ext",
     "build:ts": "tsc -b",
     "build:ext": "jupyter labextension build .",
-    "clean": "rimraf ./lib",
+    "clean": "rimraf lib jupyterlab_graph_lsp/labextension",
     "deduplicate": "yarn-deduplicate -s fewer --fail || yarn-deduplicate -s fewer --fail || yarn-deduplicate -s fewer --fail",
     "watch:lib": "jlpm build:ts --watch --preserveWatchOutput",
     "watch:ext": "jupyter labextension watch .",
