@@ -4,6 +4,8 @@
 # Distributed under the terms of the Modified BSD License.
 set -eux
 
+export SKIP_CONDA_PREFLIGHT=1
+
 doit -n8 build || doit build
 
 python3 -m pip install -vv -e . --no-deps --ignore-installed

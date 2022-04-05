@@ -12,8 +12,7 @@ def main():
     args = [NODE, STATIC / "sparql-language-server/dist/cli.js", *sys.argv[1:]]
     str_args = [*map(str, args)]
     proc = subprocess.Popen(str_args, stdin=sys.stdin, stdout=sys.stdout)
-    proc.wait()
-    return 0
+    return proc.wait()
 
 
 if __name__ == "__main__":
