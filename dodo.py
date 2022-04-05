@@ -146,7 +146,14 @@ def task_env():
         if P.FORCE_SERIAL_ENV_PREP and i:
             file_dep += [P.OK_ENV[envs[i - 1]]]
         yield _ok(
-            dict(name=env, file_dep=file_dep, actions=[[*P.AP_PREP, env]]),
+            dict(
+                name=env,
+                file_dep=file_dep,
+                actions=[
+                    (create_folder, [P.ENVS]),
+                    [*P.AP_PREP, env],
+                ],
+            ),
             P.OK_ENV[env],
         )
 
