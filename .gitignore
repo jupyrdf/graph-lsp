@@ -150,7 +150,7 @@ $RECYCLE.BIN/
 
 **/node_modules/
 nbextension/static/index.*
-jupyterlab_graph_lsp/labextension
+py_src/jupyterlab_graph_lsp/labextension
 **/.yarn-packages/
 
 # Coverage data
@@ -172,4 +172,4 @@ atest/output
 
 # pre-built servers
 
-jupyterlab_graph_lsp/servers/static/
+py_src/jupyterlab_graph_lsp/servers/static/
