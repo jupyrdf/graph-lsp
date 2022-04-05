@@ -93,7 +93,7 @@ APR_ATEST = [*APR, "atest"]
 PRETTIER = [*JLPM, "--silent", "prettier"]
 
 JUPYTERLAB_EXE = [
-    os.environ["CONDA_EXE"],
+    "conda",
     "run",
     "-p",
     (ROOT / "envs/default"),
