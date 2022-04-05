@@ -16,7 +16,7 @@ import {
   isIgnored,
   onlineParser,
   State,
-} from 'graphql-language-service-parser';
+} from 'graphql-language-service';
 
 export async function installModes(_CodeMirror: any) {
   // await import('codemirror/mode/turtle/turtle');
