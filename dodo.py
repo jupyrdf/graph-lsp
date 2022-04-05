@@ -59,6 +59,7 @@ def task_all():
 
     return dict(
         file_dep=file_dep,
+        task_dep=["test"],
         actions=([_echo_ok("ALL GOOD")]),
     )
 
@@ -427,6 +428,20 @@ def task_test():
             ),
         ],
     )
+
+    raw_eps = P.SETUP_DATA["options.entry_points"]["console_scripts"]
+    for ep in raw_eps.strip().splitlines():
+        script, tgt = ep.split("=")
+        script = script.strip()
+        yield dict(
+            name=f"cli:{script}",
+            doc="smoke test the CLI",
+            actions=[
+                [*P.APR_DEFAULT, script, "--help"],
+                [*P.APR_DEFAULT, script, "--version"],
+            ],
+            file_dep=[P.SETUP_CFG, P.OK_PIP_INSTALL],
+        )
 
 
 if not P.TESTING_IN_CI:

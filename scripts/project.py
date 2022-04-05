@@ -6,6 +6,7 @@
 # Copyright (c) 2022 Dane Freeman.
 # Distributed under the terms of the Modified BSD License.
 
+import configparser
 import json
 import os
 import platform
@@ -44,6 +45,11 @@ ROOT = SCRIPTS.parent
 # top-level stuff
 SETUP_PY = ROOT / "setup.py"
 SETUP_CFG = ROOT / "setup.cfg"
+
+_SETUP_DATA = configparser.ConfigParser()
+_SETUP_DATA.read(SETUP_CFG)
+SETUP_DATA = {key: dict(_SETUP_DATA.items(key)) for key in _SETUP_DATA.sections()}
+
 MANIFEST_IN = ROOT / "MANIFEST.in"
 NODE_MODULES = ROOT / "node_modules"
 PACKAGE_JSON = ROOT / "package.json"
