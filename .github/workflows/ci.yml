@@ -70,7 +70,7 @@ jobs:
           path: ./dist
 
   test:
-    runs-on: ${{ matrix.vm }}
+    runs-on: ${{ matrix.os }}-latest
     needs: [build]
     strategy:
       fail-fast: false
@@ -79,20 +79,9 @@ jobs:
           - ubuntu
           - macos
           - windows
-        include:
-          - os: ubuntu
-            miniforge: Linux-x86_64.sh
-            vm: ubuntu-20.04
-          - os: macos
-            miniforge: MacOSX-x86_64.sh
-            vm: macos-latest
-          - os: windows
-            miniforge: Windows-x86_64.exe
-            vm: windows-latest
     env:
       INSTALL_ARTIFACT: wheel
       TESTING_IN_CI: 'true'
-      ATEST_RETRIES: '2'
     steps:
       - name: configure line endings
         run: |
@@ -149,16 +138,18 @@ jobs:
         if: ${{ contains(matrix.os, 'windows') }}
         shell: cmd /C CALL {0}
         env:
-          ATEST_PROCESSES: 1
           WIN_CI: 1
-        run: doit all || doit all || exit 1
+          CONDA_EXE: conda
+        run: |
+          md envs
+          doit all || doit all || exit 1
 
       - name: reports
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ job.status }} reports ${{ matrix.os }} ${{ github.run_number }}
+          name: |
+            ${{ job.status }} jupyterlab-graph-lsp reports ${{ matrix.os }} ${{ github.run_number }}
           path: |
-            ./atest/output
             ./build/htmcov
             ./build/pytest.html
         if: always()
