@@ -213,11 +213,25 @@ def task_setup():
     yield py_task
 
     if not P.TESTING_IN_CI:
+
+        js_deps = [P.PACKAGE_JSON, P.OK_ENV["default"]]
+        js_targets = [P.YARN_INTEGRITY]
+
+        if P.YARN_LOCK.exists():
+            js_deps += [P.YARN_LOCK]
+        else:
+            js_targets += [P.YARN_LOCK]
+
         yield dict(
             name="js",
-            file_dep=[P.YARN_LOCK, P.PACKAGE_JSON, P.OK_ENV["default"]],
+            file_dep=js_deps,
             actions=[[*P.APR_DEFAULT, *P.JLPM_INSTALL]],
-            targets=[P.YARN_INTEGRITY],
+            targets=js_targets,
+        )
+        yield dict(
+            name="dedupe",
+            file_dep=js_deps,
+            actions=[[*P.APR_DEFAULT, *P.JLPM, "deduplicate"]],
         )
         yield _ok(
             dict(

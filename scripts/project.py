@@ -79,7 +79,7 @@ PIP = [*PYM, "pip"]
 
 JLPM = ["jlpm"]
 NPM = ["npm"]
-JLPM_INSTALL = [*JLPM, "--prefer-offline", "--frozen-lockfile"]
+JLPM_INSTALL = [*JLPM, "--prefer-offline"]
 PREFLIGHT = ["python", "-m", "scripts.preflight"]
 YARN = [shutil.which("yarn") or shutil.which("yarn.cmd")]
 LAB_EXT = ["jupyter", "labextension"]

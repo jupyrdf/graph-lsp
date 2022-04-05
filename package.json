@@ -37,6 +37,7 @@
     "build:ts": "tsc -b",
     "build:ext": "jupyter labextension build .",
     "clean": "rimraf ./lib",
+    "deduplicate": "yarn-deduplicate -s fewer --fail || yarn-deduplicate -s fewer --fail || yarn-deduplicate -s fewer --fail",
     "watch:lib": "jlpm build:ts --watch --preserveWatchOutput",
     "watch:ext": "jupyter labextension watch .",
     "lint": "jlpm prettier",
@@ -45,25 +46,24 @@
   "dependencies": {
     "@jupyterlab/application": "^3.0.0",
     "@jupyterlab/codemirror": "^3.0.0",
-    "@krassowski/jupyterlab-lsp": "^3.7.0",
-    "codemirror-graphql": "^1.0.0",
-    "graphql": "^15.5.0"
+    "@krassowski/jupyterlab-lsp": "^3.10.1",
+    "codemirror-graphql": "^1.2.15",
+    "graphql": "^16.3.0"
   },
   "peerDependencies": {
     "codemirror": "~5.57.0"
   },
   "devDependencies": {
-    "@jupyterlab/builder": "^3.0.0",
+    "@jupyterlab/builder": "^3.3.0",
     "@types/codemirror": "^0.0.74",
-    "@typescript-eslint/eslint-plugin": "^4.8.1",
-    "@typescript-eslint/parser": "^4.8.1",
     "codemirror": "~5.57.0",
-    "prettier": "^2.1.2",
+    "prettier": "^2.6.2",
     "rimraf": "^3.0.2",
-    "sparql-language-server": "^4.0.0",
-    "stardog-graphql-language-server": "^2.0.0",
-    "turtle-language-server": "^3.0.0",
-    "typescript": "~4.2.3"
+    "sparql-language-server": "^4.1.0",
+    "stardog-graphql-language-server": "^2.1.0",
+    "turtle-language-server": "^3.4.0",
+    "typescript": "~4.6.3",
+    "yarn-deduplicate": "^4.0.0"
   },
   "prettier": {
     "singleQuote": true,
