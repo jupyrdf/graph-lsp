@@ -12,7 +12,7 @@ class TurtleLanguageServer(PythonModuleSpec):
 
     python_module = "jupyterlab_graph_lsp.servers.turtle"
     key = "turtle-language-server"
-    languages = ["turtle"]
+    languages = ["turtle", "ttl"]
     args = ["--stdio"]
     spec = dict(
         display_name=key,

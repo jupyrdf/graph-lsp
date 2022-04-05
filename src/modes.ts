@@ -67,7 +67,7 @@ export async function installModes(_CodeMirror: any) {
 
   _CodeMirror.defineMIME('application/graphql', 'graphql');
   _CodeMirror.modeInfo.push({
-    ext: ['graphql', '.graphql'],
+    ext: ['graphql', '.graphql', '.graphqls', 'graphqls'],
     mime: 'application/graphql',
     mode: 'graphql',
     name: 'graphql',

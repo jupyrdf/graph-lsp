@@ -1,6 +1,6 @@
 {
   "name": "@jupyrdf/jupyterlab-graph-lsp",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "description": "Graph Language Server extensions for jupyterlab-lsp",
   "keywords": [
     "code-intelligence",

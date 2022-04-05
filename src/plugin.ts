@@ -61,7 +61,7 @@ function activateModes(app: JupyterFrontEnd, cm: ICodeMirror): IGraphModes {
   app.docRegistry.addFileType({
     name: 'GraphQL',
     mimeTypes: ['application/graphql'],
-    extensions: ['.graphql'],
+    extensions: ['.graphql', '.graphqls'],
     icon: graphqlIcon,
   });
   app.docRegistry.addFileType({

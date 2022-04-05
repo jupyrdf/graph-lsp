@@ -12,7 +12,7 @@ class GRAPHQLLanguageServer(PythonModuleSpec):
     python_module = "jupyterlab_graph_lsp.servers.graphql"
     key = "stardog-graphql-language-server"
     script = ["dist", "cli.js"]
-    languages = ["graphql"]
+    languages = ["graphql", "graphqls"]
     args = ["--stdio"]
     spec = dict(
         display_name="graphql-language-server",

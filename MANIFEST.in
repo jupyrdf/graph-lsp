@@ -1,4 +1,4 @@
-include LICENSE py_src/jupyterlab_graph_lsp/install.json
+include LICENSE THIRD-PARTY-LICENSES py_src/jupyterlab_graph_lsp/install.json
 recursive-include py_src/jupyterlab_graph_lsp/labextension *.*
 recursive-include py_src/jupyterlab_graph_lsp/servers/static *.*
 recursive-exclude py_src/jupyterlab_graph_lsp/servers/static *.map
