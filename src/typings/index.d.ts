@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Dane Freeman.
+// Copyright (c) 2022 Dane Freeman.
 // Distributed under the terms of the Modified BSD License.
 
 /// <reference path="../node_modules/@krassowski/jupyterlab-lsp/src/typings.d.ts"/>

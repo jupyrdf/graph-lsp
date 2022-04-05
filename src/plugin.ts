@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Dane Freeman.
+// Copyright (c) 2022 Dane Freeman.
 // Distributed under the terms of the Modified BSD License.
 
 import { JupyterFrontEndPlugin } from '@jupyterlab/application';
@@ -8,7 +8,15 @@ import {
   ILSPFeatureManager,
 } from '@krassowski/jupyterlab-lsp';
 import { graphExtractors } from './extractors';
-import { MODES_PLUGIN_ID, EXTRACTOR_PLUGIN_ID, graphqlIcon, sparqlIcon, sparulIcon, turtleIcon, DEBUG } from './tokens';
+import {
+  MODES_PLUGIN_ID,
+  EXTRACTOR_PLUGIN_ID,
+  graphqlIcon,
+  sparqlIcon,
+  sparulIcon,
+  turtleIcon,
+  DEBUG,
+} from './tokens';
 
 export const extractorPlugin: JupyterFrontEndPlugin<void> = {
   id: EXTRACTOR_PLUGIN_ID,
@@ -32,7 +40,9 @@ export const extractorPlugin: JupyterFrontEndPlugin<void> = {
       }
     }
 
-    Promise.all(promises).then((results) => console.table(results)).catch(console.warn);
+    Promise.all(promises)
+      .then((results) => console.table(results))
+      .catch(console.warn);
   },
 };
 
@@ -40,10 +50,7 @@ export const modesPlugin: JupyterFrontEndPlugin<void> = {
   id: MODES_PLUGIN_ID,
   autoStart: true,
   requires: [ICodeMirror],
-  activate: async (
-    app,
-    cm: ICodeMirror,
-  ) => {
+  activate: async (app, cm: ICodeMirror) => {
     // ensures file type are available for documents
     const { installModes } = await import('./modes');
 

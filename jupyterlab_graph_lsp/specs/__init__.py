@@ -1,7 +1,7 @@
 """ default specs
 """
 
-# Copyright (c) 2021 Dane Freeman.
+# Copyright (c) 2022 Dane Freeman.
 # Distributed under the terms of the Modified BSD License.
 
 from .graphql_language_server import GRAPHQLLanguageServer

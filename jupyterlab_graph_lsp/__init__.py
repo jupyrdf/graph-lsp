@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Dane Freeman.
+# Copyright (c) 2022 Dane Freeman.
 # Distributed under the terms of the Modified BSD License.
 
 from ._version import __js__, __version__

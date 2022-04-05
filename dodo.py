@@ -7,7 +7,7 @@
     See `doit list` for more options.
 """
 
-# Copyright (c) 2021 Dane Freeman.
+# Copyright (c) 2022 Dane Freeman.
 # Distributed under the terms of the Modified BSD License.
 
 import json
@@ -28,6 +28,7 @@ os.environ.update(
     PYTHONIOENCODING="utf-8",
     PIP_DISABLE_PIP_VERSION_CHECK="1",
     MAMBA_NO_BANNER="1",
+    CONDA_EXE="mamba",
 )
 
 DOIT_CONFIG = {

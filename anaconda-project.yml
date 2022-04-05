@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Dane Freeman.
+# Copyright (c) 2022 Dane Freeman.
 # Distributed under the terms of the Modified BSD License.
 
 name: jupyterlab-graph-lsp
@@ -30,15 +30,15 @@ env_specs:
     channels:
       - https://conda.anaconda.org/conda-forge
     packages:
-    - gql
-    - ipywidgets >=7.5.1,<8
-    - jupyter-lsp-python-plugins
-    - jupyterlab-lsp >=3.5,<4
-    - nodejs >=14,!=15.*,<17
-    - oxrdflib
-    - pyshacl
-    - rdflib >=6,<7
-    - reasonable
+      - gql
+      - ipywidgets >=7.5.1,<8
+      - jupyter-lsp-python-plugins
+      - jupyterlab-lsp >=3.5,<4
+      - nodejs >=14,!=15.*,<17
+      - oxrdflib
+      - pyshacl
+      - rdflib >=6,<7
+      - reasonable
 
   _lint:
     description: linting/formatting environment. not actually created.

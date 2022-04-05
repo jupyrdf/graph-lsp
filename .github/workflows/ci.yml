@@ -1,3 +1,6 @@
+# Copyright (c) 2022 Dane Freeman.
+# Distributed under the terms of the Modified BSD License.
+
 name: CI
 
 on:
@@ -10,8 +13,8 @@ on:
 
 env:
   PYTHONIOENCODING: utf-8
-  PYTHONUNBUFFERED: "1"
-  PIP_DISABLE_PIP_VERSION_CHECK: "1"
+  PYTHONUNBUFFERED: '1'
+  PIP_DISABLE_PIP_VERSION_CHECK: '1'
   CONDA_EXE: mamba
   # our stuff
   SKIP_CONDA_PREFLIGHT: 1
@@ -88,8 +91,8 @@ jobs:
             vm: windows-latest
     env:
       INSTALL_ARTIFACT: wheel
-      TESTING_IN_CI: "true"
-      ATEST_RETRIES: "2"
+      TESTING_IN_CI: 'true'
+      ATEST_RETRIES: '2'
     steps:
       - name: configure line endings
         run: |
