@@ -4,6 +4,6 @@
 /**
  * Add additional mappings for Turtle.
  */
-export async function installSPARQL(_CodeMirror: any) {
+export async function installTurtle(_CodeMirror: any) {
   // presently a no-op
 }
