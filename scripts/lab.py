@@ -1,6 +1,6 @@
 """ handle lingering issues with jupyterlab 1.x build
 """
-# Copyright (c) 2022 Dane Freeman.
+# Copyright (c) 2022 jupyterlab-graph-lsp contributors.
 # Distributed under the terms of the Modified BSD License.
 
 import shutil

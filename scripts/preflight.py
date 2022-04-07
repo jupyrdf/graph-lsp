@@ -3,7 +3,7 @@
     be careful about imports here:
 """
 
-# Copyright (c) 2022 Dane Freeman.
+# Copyright (c) 2022 jupyterlab-graph-lsp contributors.
 # Distributed under the terms of the Modified BSD License.
 
 import json
@@ -26,7 +26,7 @@ ARBITRARY_PATH_LENGTH = 32 if P.WIN else 64
 NOT_DEFINED = "!NOT DEFINED!"
 DEFAULT_KERNEL_NAME = "python3"
 
-COPYRIGHT = f"Copyright (c) {datetime.now().year} Dane Freeman."
+COPYRIGHT = f"Copyright (c) {datetime.now().year} jupyterlab-graph-lsp contributors."
 LICENSE = "Distributed under the terms of the Modified BSD License."
 
 

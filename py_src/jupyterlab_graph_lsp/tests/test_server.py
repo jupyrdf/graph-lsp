@@ -1,6 +1,6 @@
 """ Smoke test the language servers starting
 """
-# Copyright (c) 2022 Dane Freeman.
+# Copyright (c) 2022 jupyterlab-graph-lsp contributors.
 # Distributed under the terms of the Modified BSD License.
 
 import asyncio

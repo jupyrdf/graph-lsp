@@ -3,7 +3,7 @@
     this should not import anything not in py37+ stdlib, or any local paths
 """
 
-# Copyright (c) 2022 Dane Freeman.
+# Copyright (c) 2022 jupyterlab-graph-lsp contributors.
 # Distributed under the terms of the Modified BSD License.
 
 import configparser
