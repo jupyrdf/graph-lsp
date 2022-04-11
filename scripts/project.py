@@ -1,11 +1,12 @@
 """ important project paths
 
-    this should not import anything not in py36+ stdlib, or any local paths
+    this should not import anything not in py37+ stdlib, or any local paths
 """
 
-# Copyright (c) 2021 Dane Freeman.
+# Copyright (c) 2022 jupyterlab-graph-lsp contributors.
 # Distributed under the terms of the Modified BSD License.
 
+import configparser
 import json
 import os
 import platform
@@ -44,6 +45,11 @@ ROOT = SCRIPTS.parent
 # top-level stuff
 SETUP_PY = ROOT / "setup.py"
 SETUP_CFG = ROOT / "setup.cfg"
+
+_SETUP_DATA = configparser.ConfigParser()
+_SETUP_DATA.read(SETUP_CFG)
+SETUP_DATA = {key: dict(_SETUP_DATA.items(key)) for key in _SETUP_DATA.sections()}
+
 MANIFEST_IN = ROOT / "MANIFEST.in"
 NODE_MODULES = ROOT / "node_modules"
 PACKAGE_JSON = ROOT / "package.json"
@@ -79,7 +85,7 @@ PIP = [*PYM, "pip"]
 
 JLPM = ["jlpm"]
 NPM = ["npm"]
-JLPM_INSTALL = [*JLPM, "--prefer-offline", "--frozen-lockfile"]
+JLPM_INSTALL = [*JLPM, "--prefer-offline"]
 PREFLIGHT = ["python", "-m", "scripts.preflight"]
 YARN = [shutil.which("yarn") or shutil.which("yarn.cmd")]
 LAB_EXT = ["jupyter", "labextension"]
@@ -93,7 +99,7 @@ APR_ATEST = [*APR, "atest"]
 PRETTIER = [*JLPM, "--silent", "prettier"]
 
 JUPYTERLAB_EXE = [
-    os.environ["CONDA_EXE"],
+    "conda",
     "run",
     "-p",
     (ROOT / "envs/default"),
@@ -107,7 +113,7 @@ JUPYTERLAB_EXE = [
 OK_ENV = {env: BUILD / f"prep_{env}.ok" for env in ["default", "atest"]}
 
 # python stuff
-PY_SRC = ROOT / PY_PKG
+PY_SRC = ROOT / "py_src" / PY_PKG
 
 
 # js stuff
@@ -167,7 +173,7 @@ OK_LINKS = BUILD / "links.ok"
 
 HTMLCOV = BUILD / "htmlcov"
 HTMLCOV_INDEX = HTMLCOV / "index.html"
-PYTEST_COV_THRESHOLD = 17
+PYTEST_COV_THRESHOLD = 100
 PYTEST_HTML = BUILD / "pytest.html"
 PYTEST_XUNIT = BUILD / "pytest.xunit.xml"
 

@@ -7,7 +7,7 @@
     See `doit list` for more options.
 """
 
-# Copyright (c) 2021 Dane Freeman.
+# Copyright (c) 2022 jupyterlab-graph-lsp contributors.
 # Distributed under the terms of the Modified BSD License.
 
 import json
@@ -28,6 +28,7 @@ os.environ.update(
     PYTHONIOENCODING="utf-8",
     PIP_DISABLE_PIP_VERSION_CHECK="1",
     MAMBA_NO_BANNER="1",
+    CONDA_EXE=os.environ.get("CONDA_EXE", "mamba"),
 )
 
 DOIT_CONFIG = {
@@ -58,6 +59,7 @@ def task_all():
 
     return dict(
         file_dep=file_dep,
+        task_dep=["test"],
         actions=([_echo_ok("ALL GOOD")]),
     )
 
@@ -145,7 +147,14 @@ def task_env():
         if P.FORCE_SERIAL_ENV_PREP and i:
             file_dep += [P.OK_ENV[envs[i - 1]]]
         yield _ok(
-            dict(name=env, file_dep=file_dep, actions=[[*P.AP_PREP, env]]),
+            dict(
+                name=env,
+                file_dep=file_dep,
+                actions=[
+                    (create_folder, [P.ENVS]),
+                    [*P.AP_PREP, env],
+                ],
+            ),
             P.OK_ENV[env],
         )
 
@@ -212,11 +221,25 @@ def task_setup():
     yield py_task
 
     if not P.TESTING_IN_CI:
+
+        js_deps = [P.PACKAGE_JSON, P.OK_ENV["default"]]
+        js_targets = [P.YARN_INTEGRITY]
+
+        if P.YARN_LOCK.exists():
+            js_deps += [P.YARN_LOCK]
+        else:
+            js_targets += [P.YARN_LOCK]
+
         yield dict(
             name="js",
-            file_dep=[P.YARN_LOCK, P.PACKAGE_JSON, P.OK_ENV["default"]],
+            file_dep=js_deps,
             actions=[[*P.APR_DEFAULT, *P.JLPM_INSTALL]],
-            targets=[P.YARN_INTEGRITY],
+            targets=js_targets,
+        )
+        yield dict(
+            name="dedupe",
+            file_dep=js_deps,
+            actions=[[*P.APR_DEFAULT, *P.JLPM, "deduplicate"]],
         )
         yield _ok(
             dict(
@@ -405,6 +428,20 @@ def task_test():
             ),
         ],
     )
+
+    raw_eps = P.SETUP_DATA["options.entry_points"]["console_scripts"]
+    for ep in raw_eps.strip().splitlines():
+        script, tgt = ep.split("=")
+        script = script.strip()
+        yield dict(
+            name=f"cli:{script}",
+            doc="smoke test the CLI",
+            actions=[
+                [*P.APR_DEFAULT, script, "--help"],
+                [*P.APR_DEFAULT, script, "--version"],
+            ],
+            file_dep=[P.SETUP_CFG, P.OK_PIP_INSTALL],
+        )
 
 
 if not P.TESTING_IN_CI:

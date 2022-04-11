@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Dane Freeman.
+# Copyright (c) 2022 jupyterlab-graph-lsp contributors.
 # Distributed under the terms of the Modified BSD License.
 
 name: jupyterlab-graph-lsp
@@ -21,7 +21,7 @@ env_specs:
       - _lint
     packages:
       - pip
-      - python >=3.7,<3.8.0a0
+      - python >=3.9,<3.10.0a0
       - twine
       - wheel
 
@@ -30,15 +30,15 @@ env_specs:
     channels:
       - https://conda.anaconda.org/conda-forge
     packages:
-      - ipython >=7
-      - ipywidgets >=7.5.1,<8
-      - jupyterlab >=3,<4
-      - jupyterlab-lsp >=3.5,<4
-      - jupyter-lsp-python-plugins
-      - nodejs >=14,<15
-      - python >=3.7
-      - rdflib >=5,<6
       - gql
+      - ipywidgets >=7.5.1,<8
+      - jupyter-lsp-python-plugins
+      - jupyterlab-lsp >=3.5,<4
+      - nodejs >=14,!=15.*,<17
+      - oxrdflib
+      - pyshacl
+      - rdflib >=6,<7
+      - reasonable
 
   _lint:
     description: linting/formatting environment. not actually created.

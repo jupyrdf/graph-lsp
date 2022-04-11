@@ -1,9 +1,19 @@
 # CHANGELOG
 
+## jupyterlab_graph_lsp 0.2.0
+
+- adds proper CLI for all bundled language servers
+- minimum python is now 3.7
+
+## @jupyrdf/jupyterlab-graph-lsp 0.2.0
+
+- splits codemirror modes and magic extractors into separate plugins
+- adds `.graphqls` file format for GraphQL schema
+
 ## jupyterlab_graph_lsp 0.1.2
 
-- Add `sparql-query` and `sparql-update` to sparql language server spec to launch sparql
-  lsp when opening `.sparql` and `.sparul` files.
+- Add `sparql-query` and `sparql-update` to sparql language server spec to launch SPARQL
+  language server when opening `.sparql` and `.sparul` files.
 
 ## @jupyrdf/jupyterlab-graph-lsp 0.1.2
 
@@ -28,6 +38,6 @@
 
 ---
 
-> Copyright (c) 2021 Dane Freeman.
+> Copyright (c) 2022 jupyterlab-graph-lsp contributors.
 >
 > Distributed under the terms of the Modified BSD License.

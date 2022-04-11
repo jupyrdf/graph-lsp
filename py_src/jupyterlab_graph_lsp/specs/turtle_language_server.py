@@ -1,10 +1,10 @@
-# Copyright (c) 2021 Dane Freeman.
+# Copyright (c) 2022 jupyterlab-graph-lsp contributors.
 # Distributed under the terms of the Modified BSD License.
 
 
 from jupyter_lsp.specs.utils import PythonModuleSpec
 
-URL = "https://github.com/stardog-union/stardog-language-servers/"
+URL = "https://github.com/stardog-union/stardog-language-servers"
 
 
 class TurtleLanguageServer(PythonModuleSpec):
@@ -12,13 +12,13 @@ class TurtleLanguageServer(PythonModuleSpec):
 
     python_module = "jupyterlab_graph_lsp.servers.turtle"
     key = "turtle-language-server"
-    languages = ["turtle"]
+    languages = ["turtle", "ttl"]
     args = ["--stdio"]
     spec = dict(
         display_name=key,
         mime_types=["text/turtle"],
         urls=dict(
-            home=URL + "tree/master/packages/{}".format(key),
-            issues=URL + "issues",
+            home=f"{URL}/tree/master/packages/{key}",
+            issues=f"{URL}/issues",
         ),
     )

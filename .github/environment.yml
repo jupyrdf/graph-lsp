@@ -1,2 +1,10 @@
 # Copyright (c) 2022 jupyterlab-graph-lsp contributors.
 # Distributed under the terms of the Modified BSD License.
+
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - anaconda-project
+  - doit
+  - python >=3.7,<3.10

@@ -1,5 +1,5 @@
 """helper for anaconda-project with mamba and a 'clean' condarc"""
-# Copyright (c) 2021 Dane Freeman.
+# Copyright (c) 2022 jupyterlab-graph-lsp contributors.
 # Distributed under the terms of the Modified BSD License.
 
 import os

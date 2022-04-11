@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Dane Freeman.
+# Copyright (c) 2022 jupyterlab-graph-lsp contributors.
 # Distributed under the terms of the Modified BSD License.
 
 
@@ -9,11 +9,10 @@ from ._base import NODE, STATIC
 
 
 def main():
-    args = [NODE, STATIC / "sparql-language-server/dist/cli.js", *sys.argv[1:]]
+    args = [NODE, STATIC / "stardog-graphql-language-server/dist/cli.js", *sys.argv[1:]]
     str_args = [*map(str, args)]
     proc = subprocess.Popen(str_args, stdin=sys.stdin, stdout=sys.stdout)
-    proc.wait()
-    return 0
+    return proc.wait()
 
 
 if __name__ == "__main__":

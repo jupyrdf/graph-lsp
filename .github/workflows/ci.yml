@@ -1,0 +1,155 @@
+# Copyright (c) 2022 jupyterlab-graph-lsp contributors.
+# Distributed under the terms of the Modified BSD License.
+
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+env:
+  PYTHONIOENCODING: utf-8
+  PYTHONUNBUFFERED: '1'
+  PIP_DISABLE_PIP_VERSION_CHECK: '1'
+  CONDA_EXE: mamba
+  # our stuff
+  SKIP_CONDA_PREFLIGHT: 1
+  CACHE_EPOCH: 0
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu]
+    steps:
+      - name: git checkout
+        uses: actions/checkout@v3
+
+      - name: cache (conda)
+        uses: actions/cache@v3
+        with:
+          path: ~/conda_pkgs_dir
+          key: |
+            ${{ runner.os }}-conda-${{ hashFiles('.github/environment.yml', 'anaconda-project-lock.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-conda-
+
+      - name: cache (yarn)
+        uses: actions/cache@v3
+        with:
+          path: .yarn-packages
+          key: |
+            yarn-${{ runner.os }}-${{ hashFiles('yarn.lock', '.yarnrc') }}
+          restore-keys: |
+            yarn-${{ runner.os }}-
+            yarn-
+
+      - name: base env (conda)
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          environment-file: .github/environment.yml
+          use-only-tar-bz2: true
+          miniforge-variant: Mambaforge
+          use-mamba: true
+
+      - name: build
+        shell: bash -l {0}
+        run: |
+          doit -n4 lint release || doit lint release || exit 1
+
+      - name: publish dists
+        uses: actions/upload-artifact@v3
+        with:
+          name: jupyterlab-graph-lsp dist ${{ github.run_number }}
+          path: ./dist
+
+  test:
+    runs-on: ${{ matrix.os }}-latest
+    needs: [build]
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu
+          - macos
+          - windows
+    env:
+      INSTALL_ARTIFACT: wheel
+      TESTING_IN_CI: 'true'
+    steps:
+      - name: configure line endings
+        run: |
+          git config --global core.autocrlf false
+
+      - name: git checkout
+        uses: actions/checkout@v3
+
+      - name: cache (conda)
+        uses: actions/cache@v3
+        with:
+          path: ~/conda_pkgs_dir
+          key: |
+            ${{ env.CACHE_EPOCH }}-${{ runner.os }}-conda-${{ hashFiles('.github/environment.yml', 'anaconda-project-lock.yml') }}
+          restore-keys: |
+            ${{ env.CACHE_EPOCH }}-${{ runner.os }}-conda-
+
+      - name: env (conda)
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          environment-file: .github/environment.yml
+          use-only-tar-bz2: true
+          miniforge-variant: Mambaforge
+          use-mamba: true
+
+      - name: cache (yarn)
+        uses: actions/cache@v3
+        with:
+          path: .yarn-packages
+          key: |
+            ${{ env.CACHE_EPOCH }}-yarn-${{ runner.os }}-${{ hashFiles('yarn.lock', '.yarnrc') }}
+          restore-keys: |
+            ${{ env.CACHE_EPOCH }}-yarn-${{ runner.os }}-
+            ${{ env.CACHE_EPOCH }}-yarn-
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: jupyterlab-graph-lsp dist ${{ github.run_number }}
+          path: ./dist
+
+      - name: test (linux)
+        if: ${{ contains(matrix.os, 'ubuntu') }}
+        shell: bash -l {0}
+        run: |
+          export INSTALL_ARTIFACT=sdist
+          doit -n4 all || doit all || exit 1
+
+      - name: test (macos)
+        if: ${{ contains(matrix.os, 'macos') }}
+        shell: bash -l {0}
+        run: doit -n4 all || doit all || exit 1
+
+      - name: test (windows)
+        if: ${{ contains(matrix.os, 'windows') }}
+        shell: cmd /C CALL {0}
+        env:
+          WIN_CI: 1
+          CONDA_EXE: conda
+        run: |
+          md envs
+          doit all || doit all || exit 1
+
+      - name: reports
+        uses: actions/upload-artifact@v3
+        with:
+          name: |
+            ${{ job.status }} jupyterlab-graph-lsp reports ${{ matrix.os }} ${{ github.run_number }}
+          path: |
+            ./build/htmcov
+            ./build/pytest.html
+        if: always()

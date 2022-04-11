@@ -1,28 +1,26 @@
-// Copyright (c) 2021 Dane Freeman.
+// Copyright (c) 2022 jupyterlab-graph-lsp contributors.
 // Distributed under the terms of the Modified BSD License.
+import { Token } from '@lumino/coreutils';
 
+/** The package namespace */
 export const NS = '@jupyrdf/jupyterlab-graph-lsp';
-export const PLUGIN_ID = `${NS}:ipython-graph`;
 
-import { LabIcon } from '@jupyterlab/ui-components';
+/** The plugin ID for the language extractors (magic support) */
+export const EXTRACTOR_PLUGIN_ID = `${NS}:ipython-graph`;
 
-import graphqlSvg from '../style/img/graphql.svg';
-import rdfSvg from '../style/img/rdf.svg';
+/** The plugin ID for the CodeMirror modes */
+export const MODES_PLUGIN_ID = `${NS}:graph-modes`;
 
-const BASE_COLOR_CLASS = 'jp-icon-contrast3';
+/** The plugin ID for the CodeMirror modes */
+export const IGraphModes = new Token<IGraphModes>(MODES_PLUGIN_ID);
 
-export const graphqlIcon = new LabIcon({ svgstr: graphqlSvg, name: `${NS}:graphql` });
-export const turtleIcon = new LabIcon({
-  svgstr: rdfSvg.replace('RDF', 'TTL').replace(BASE_COLOR_CLASS, 'jp-icon-contrast1'),
-  name: `${NS}:turtle`,
-});
-export const sparqlIcon = new LabIcon({
-  svgstr: rdfSvg.replace('RDF', 'SPARQL'),
-  name: `${NS}:sparql`,
-});
-export const sparulIcon = new LabIcon({
-  svgstr: rdfSvg
-    .replace('RDF', 'SPARUL')
-    .replace(BASE_COLOR_CLASS, 'jp-icon-contrast2'),
-  name: `${NS}:sparul`,
-});
+/** The public interface for the graph modes. */
+export interface IGraphModes {
+  /** A promise that resolves when the modes are installed. */
+  ready: Promise<void>;
+}
+
+/** A live debugging tool which increases verbosity. */
+export const DEBUG = window.location.href.indexOf('GRAPH_LSP_DEBUG') > -1;
+
+DEBUG && console.warn('GRAPH_LSP_DEBUG active');

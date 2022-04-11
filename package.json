@@ -1,6 +1,6 @@
 {
   "name": "@jupyrdf/jupyterlab-graph-lsp",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Graph Language Server extensions for jupyterlab-lsp",
   "keywords": [
     "code-intelligence",
@@ -32,38 +32,37 @@
     "url": "https://github.com/jupyrdf/graph-lsp.git"
   },
   "scripts": {
-    "bootstrap": "jlpm --prefer-offline --ignore-optional --ignore-scripts && jlpm clean && jlpm schema && jlpm lint && jlpm build",
     "build": "jlpm build:ts && jlpm build:ext",
     "build:ts": "tsc -b",
     "build:ext": "jupyter labextension build .",
-    "clean": "rimraf ./lib",
+    "clean": "rimraf lib jupyterlab_graph_lsp/labextension",
+    "deduplicate": "yarn-deduplicate -s fewer --fail || yarn-deduplicate -s fewer --fail || yarn-deduplicate -s fewer --fail",
     "watch:lib": "jlpm build:ts --watch --preserveWatchOutput",
     "watch:ext": "jupyter labextension watch .",
     "lint": "jlpm prettier",
-    "lint:prettier": "prettier --write --list-different \"*.{json,yml,md}\" \"{src,style,py_src,.github,examples,docs}/**/*.{ts,tsx,js,jsx,css,json,md,yml}\""
+    "lint:prettier": "prettier --write --list-different \"*.{json,yml,md}\" \"{src,style,py_src,.github,.binder,examples,docs}/**/*.{ts,tsx,js,jsx,css,json,md,yml}\""
   },
   "dependencies": {
     "@jupyterlab/application": "^3.0.0",
     "@jupyterlab/codemirror": "^3.0.0",
-    "@krassowski/jupyterlab-lsp": "^3.7.0",
-    "codemirror-graphql": "^1.0.0",
-    "graphql": "^15.5.0"
+    "@krassowski/jupyterlab-lsp": "^3.10.1",
+    "codemirror-graphql": "^1.2.15",
+    "graphql": "^16.3.0"
   },
   "peerDependencies": {
     "codemirror": "~5.57.0"
   },
   "devDependencies": {
-    "@jupyterlab/builder": "^3.0.0",
+    "@jupyterlab/builder": "^3.3.0",
     "@types/codemirror": "^0.0.74",
-    "@typescript-eslint/eslint-plugin": "^4.8.1",
-    "@typescript-eslint/parser": "^4.8.1",
     "codemirror": "~5.57.0",
-    "prettier": "^2.1.2",
+    "prettier": "^2.6.2",
     "rimraf": "^3.0.2",
-    "sparql-language-server": "^4.0.0",
-    "stardog-graphql-language-server": "^2.0.0",
-    "turtle-language-server": "^3.0.0",
-    "typescript": "~4.2.3"
+    "sparql-language-server": "^4.1.0",
+    "stardog-graphql-language-server": "^2.1.0",
+    "turtle-language-server": "^3.4.0",
+    "typescript": "~4.6.3",
+    "yarn-deduplicate": "^4.0.0"
   },
   "prettier": {
     "singleQuote": true,
@@ -72,7 +71,7 @@
   },
   "jupyterlab": {
     "extension": "lib/plugin.js",
-    "outputDir": "./jupyterlab_graph_lsp/labextension",
+    "outputDir": "./py_src/jupyterlab_graph_lsp/labextension",
     "sharedPackages": {
       "graphql": {
         "bundled": true
