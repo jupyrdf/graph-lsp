@@ -2,28 +2,28 @@
 // Distributed under the terms of the Modified BSD License.
 
 import { JupyterFrontEndPlugin } from '@jupyterlab/application';
-import { ICodeMirror, Mode } from '@jupyterlab/codemirror';
+import { IEditorExtensionRegistry } from '@jupyterlab/codemirror';
 import {
   ILSPCodeExtractorsManager,
   ILSPFeatureManager,
-} from '@krassowski/jupyterlab-lsp';
+} from '@jupyterlab/lsp';
 import { graphExtractors } from './extractors';
 import { PLUGIN_ID, graphqlIcon, sparqlIcon, sparulIcon, turtleIcon } from './tokens';
 
 export const plugin: JupyterFrontEndPlugin<void> = {
   id: PLUGIN_ID,
-  requires: [ICodeMirror, ILSPCodeExtractorsManager, ILSPFeatureManager],
+  requires: [IEditorExtensionRegistry, ILSPCodeExtractorsManager, ILSPFeatureManager],
   activate: async (
     app,
-    cm: ICodeMirror,
+    cm: IEditorExtensionRegistry,
     codeExtractors: ILSPCodeExtractorsManager,
     lspf: ILSPFeatureManager
   ) => {
     // ensures file type is available for documents
-    const { installModes } = await import('./modes');
+    // const { installModes } = await import('./modes');
 
     console.warn(lspf);
-    await installModes(cm.CodeMirror);
+    // await installModes(cm.CodeMirror);
 
     /* do lab-specific files */
     app.docRegistry.addFileType({
@@ -52,15 +52,17 @@ export const plugin: JupyterFrontEndPlugin<void> = {
     });
 
     /* install lsp extractors for magics */
-    const promises = [];
+    // const promises = [];
     for (const [language, extractors] of Object.entries(graphExtractors)) {
       for (const extractor of extractors) {
         codeExtractors.register(extractor, language);
-        promises.push(Mode.ensure(extractor.language));
+        console.log("push to promises", extractor.language
+        )
+        // promises.push(Mode.ensure(extractor.language));
       }
     }
 
-    console.table(await Promise.all(promises));
+    // console.table(await Promise.all(promises));
   },
   autoStart: true,
 };

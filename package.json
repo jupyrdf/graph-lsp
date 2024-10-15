@@ -36,43 +36,48 @@
     "build": "jlpm build:ts && jlpm build:ext",
     "build:ts": "tsc -b",
     "build:ext": "jupyter labextension build .",
-    "clean": "rimraf ./lib",
     "watch:lib": "jlpm build:ts --watch --preserveWatchOutput",
     "watch:ext": "jupyter labextension watch .",
     "lint": "jlpm prettier",
     "lint:prettier": "prettier --write --list-different \"*.{json,yml,md}\" \"{src,style,py_src,.github,examples,docs}/**/*.{ts,tsx,js,jsx,css,json,md,yml}\""
   },
   "dependencies": {
-    "@jupyterlab/application": "^3.0.0",
-    "@jupyterlab/codemirror": "^3.0.0",
-    "@krassowski/jupyterlab-lsp": "^3.7.0",
-    "codemirror-graphql": "^1.0.0",
-    "graphql": "^15.5.0"
+    "@jupyter-lsp/jupyterlab-lsp": "^5.1.0",
+    "@jupyterlab/application": "^4.0.0",
+    "@jupyterlab/codemirror": "^4.0.0",
+    "@jupyterlab/codemirror-extension": "^4.0.0",
+    "@jupyterlab/lsp": "^4.0.0",
+    "codemirror-graphql": "^2.0.0",
+    "graphql": "^16.9.0"
   },
   "peerDependencies": {
-    "codemirror": "~5.57.0"
+    "codemirror": "~6.0.0"
   },
   "devDependencies": {
-    "@jupyterlab/builder": "^3.0.0",
-    "@types/codemirror": "^0.0.74",
-    "@typescript-eslint/eslint-plugin": "^4.8.1",
-    "@typescript-eslint/parser": "^4.8.1",
-    "codemirror": "~5.57.0",
-    "prettier": "^2.1.2",
-    "rimraf": "^3.0.2",
-    "sparql-language-server": "^4.0.0",
-    "stardog-graphql-language-server": "^2.0.0",
-    "turtle-language-server": "^3.0.0",
-    "typescript": "~4.2.3"
+    "@jupyterlab/builder": "^4.0.0",
+    "@trivago/prettier-plugin-sort-imports": "^4.0.0",
+    "@types/codemirror": "^5.60.15",
+    "codemirror": "~6.0.0",
+    "prettier": "^3.3.0",
+    "source-map-loader": "^5.0.0",
+    "sparql-language-server": "^4.3.0",
+    "stardog-graphql-language-server": "^2.2.0",
+    "turtle-language-server": "^3.5.0",
+    "typescript": "5.2.2",
+    "yarn-berry-deduplicate": "^6.1.1"
   },
   "prettier": {
     "singleQuote": true,
     "printWidth": 88,
-    "proseWrap": "always"
+    "proseWrap": "always",
+    "plugins": [
+      "@trivago/prettier-plugin-sort-imports"
+    ]
   },
   "jupyterlab": {
     "extension": "lib/plugin.js",
-    "outputDir": "./jupyterlab_graph_lsp/labextension",
+    "webpackConfig": "./webpack.config.js",
+    "outputDir": "./jupyterlab_graph_lsp/_d/share/jupyter/labextensions/@jupyrdf/jupyterlab-graph-lsp",
     "sharedPackages": {
       "graphql": {
         "bundled": true

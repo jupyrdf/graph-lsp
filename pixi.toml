@@ -1,0 +1,324 @@
+[project]
+authors = ["jupyterlab-graph-lsp Contributors <freeman.dane@gmail.com>"]
+channels = ["conda-forge"]
+description = "Service Wrapper for HPC"
+name = "jupyterlab-graph-lsp"
+platforms = ["linux-64", "osx-arm64", "win-64"]
+version = "0.2.0"
+
+[system-requirements]
+linux = "3.10"
+libc = {family = "glibc", version = "2.17"}
+
+
+[tasks]
+build = {depends-on = ["build-js-lib", "build-js-ext"]}
+dist = {depends-on = ["dist-npm", "dist-pypi", "dist-hash"]}
+fix = {depends-on = [
+  "fix-taplo",
+  "fix-prettier",
+  "fix-ruff-format",
+  "fix-ruff-check",
+  "fix-js-dupes",
+  "fix-robot-tidy",
+  "fix-nblint",
+]}
+lint = {depends-on = [
+  "lint-ruff-format",
+  "lint-ruff-check",
+  "lint-robot-dryrun",
+  "lint-actionlint",
+]}
+release = {depends-on = ["fix", "lint", "build", "dist", "test-all", "docs", "check"]}
+all = {depends-on = ["build", "test", "release"]}
+
+# fragments ############################################################################
+[tasks.pip--]
+cmd = """
+rm -f build/reports/pip-freeze/$PIXI_ENVIRONMENT_NAME.txt
+&& python -m pip install
+  -vv
+  --disable-pip-version-check
+  --ignore-installed
+  --no-build-isolation
+  --no-cache-dir
+  --no-deps"""
+
+[tasks.pip-editable--]
+cmd = "pixi r pip-- --editable . && pixi r pip-check--"
+
+[tasks.pip-dist--]
+cmd = """
+pixi r pip-- --find-links=dist --no-index ipyelk
+&& pixi r pip-check--
+"""
+
+[tasks.pip-check--]
+cmd = """python -m pip check
+&& mkdir -p build/reports/pip-freeze
+&& pip list --format=freeze > build/reports/pip-freeze/$PIXI_ENVIRONMENT_NAME.txt"""
+
+[tasks.nbconvert--]
+cmd = """
+export
+    NBCONVERT_DIR=$PIXI_PROJECT_ROOT/build/reports/$PIXI_ENVIRONMENT_NAME/nbconvert
+    IPYELK_TESTING=true
+&& rm -rf $NBCONVERT_DIR
+&& mkdir -p $NBCONVERT_DIR
+&& cd examples
+&& rm -rf .ipynb_checkpoints/
+&& jupyter nbconvert
+    --to html
+    --output-dir $NBCONVERT_DIR
+    --execute
+    --ExecutePreprocessor.timeout=1200
+    ./**/*.ipynb
+"""
+
+# setup ################################################################################
+[feature.tasks-build.tasks.setup-js]
+cmd = """cat node_modules/.cached-in-ci || jlpm"""
+inputs = [".yarnrc.yml", "package.json", "yarn.lock"]
+outputs = ["yarn.lock", "node_modules/.yarn-state.yml"]
+
+# build ################################################################################
+[feature.tasks-build.tasks.build-js-lib]
+cmd = "jlpm build:ts"
+depends-on = ["setup-js"]
+inputs = [
+  "{tsconfigbase,package}.json",
+  "js/",
+  "node_modules/.yarn-state.yml",
+]
+outputs = ["build/.src.tsbuildinfo"]
+
+[feature.tasks-build.tasks.build-js-ext]
+cmd = "jlpm build:ext"
+depends-on = ["setup-js", "build-js-lib"]
+inputs = [
+  "node_modules/.yarn-state.yml",
+  "style/",
+  "build/.src.tsbuildinfo",
+  "webpack.config.js",
+]
+outputs = ["src/_d/share/jupyter/labextensions/@jupyrdf/graph-lsp/package.json"]
+
+
+#### Test ####
+[feature.test-tasks.tasks.pytest]
+cmd = "pytest tests"
+depends-on = ["pip-test"]
+inputs = ["{jupyterlab_graph_lsp,test}/**/*.py", "pyproject.toml", "recipe"]
+description = "run tests"
+
+[feature.test-tasks.tasks.pip-test]
+cmd = "pixi run -e test pip-"
+description = "install ice_service in test environment"
+inputs = ["pyproject.toml"]
+
+#### Build ####
+# [feature.build-tasks.tasks.flit]
+# cmd = "flit build"
+# inputs = ["jupyterlab_graph_lsp/**/*.py", "{readme.md,LICENSE,pyproject.toml}"]
+# outputs = ["dist/"]
+
+[feature.release-tasks.tasks.release-rattler]
+cmd = """
+rattler-build build
+  --verbose
+  --output-dir dist/conda-bld
+  --channel conda-forge
+  --recipe recipe
+"""
+inputs = ["jupyterlab_graph_lsp/**/*.py", "{readme.md,LICENSE,pyproject.toml}", "recipe"]
+outputs = ["dist/conda-bld/noarch"]
+
+[tasks.pip-]
+cmd = """
+python -m pip install -e . -vv --no-deps --ignore-installed --no-build-isolation  --disable-pip-version-check
+&& python -m pip check
+"""
+
+# ship #################################################################################
+[feature.tasks-build.tasks.dist-npm]
+cmd = "mkdir -p dist && cd dist && npm pack .."
+depends-on = ["build-js-lib"]
+inputs = ["build/.src.tsbuildinfo", "{package.json,README.md,LICENSE}"]
+outputs = ["dist/*.tgz"]
+
+[feature.tasks-build.tasks.dist-pypi]
+cmd = "pyproject-build . --no-isolation"
+inputs = ["{README.md,LICENSE,pyproject.toml}", "src/", "tests/", "!**/__pycache__"]
+outputs = ["dist/*.{whl,tar.gz}"]
+depends-on = ["build-js-ext"]
+
+[feature.tasks-build.tasks.dist-hash]
+cmd = """python -c '
+import pathlib, hashlib; d = pathlib.Path("dist");
+[print(f"{hashlib.sha256(p.read_bytes()).hexdigest()}  {p.name}")
+for p in sorted(d.glob("*.*"))]
+' > dist/SHA256SUMS"""
+inputs = ["dist/", "!SHA256SUMS"]
+depends-on = ["dist-pypi", "dist-npm"]
+outputs = ["dist/SHA256SUMS"]
+
+
+# lint #################################################################################
+[feature.tasks-lint.tasks.fix-taplo]
+description = "consistently format TOML files"
+cmd = """taplo fmt
+  *.toml
+  --option=array_auto_collapse=true
+  --option=compact_inline_tables=true
+  --option=column_width=88"""
+inputs = ["*.toml", "scripts/*.toml"]
+
+[feature.tasks-lint.tasks.lint-ruff-format]
+cmd = "ruff format --check"
+inputs = [
+  "{scripts,src,tests,docs,atest,examples}/**/*.{py,ipynb}",
+  "pyproject.toml",
+  "!**/.ipynb_checkpoints/",
+]
+
+[feature.tasks-lint.tasks.lint-ruff-check]
+cmd = "ruff check"
+inputs = [
+  "{scripts,src,tests,docs,atest,examples}/**/*.{py,ipynb}",
+  "pyproject.toml",
+  "!**/.ipynb_checkpoints/",
+]
+
+[feature.tasks-lint.tasks.fix-ruff-format]
+cmd = "ruff format"
+inputs = [
+  "{scripts,src,tests,docs,atest,examples}/**/*.{py,ipynb}",
+  "pyproject.toml",
+  "!**/.ipynb_checkpoints/",
+]
+
+[feature.tasks-lint.tasks.fix-ruff-check]
+cmd = "ruff check --fix-only"
+depends-on = ["fix-ruff-format"]
+inputs = [
+  "{scripts,src,tests,docs,atest,examples}/**/*.{py,ipynb}",
+  "pyproject.toml",
+  "!**/.ipynb_checkpoints/",
+]
+
+[feature.tasks-lint.tasks.fix-js-dupes]
+cmd = "jlpm yarn-berry-deduplicate -s fewer --fail"
+inputs = ["package.json"]
+outputs = ["yarn.lock", "node_modules/.yarn-state.yml"]
+depends-on = ["setup-js"]
+
+[feature.tasks-lint.tasks.fix-robot-tidy]
+cmd = "robotidy atest"
+inputs = ["atest/**/*.{robot,resource}"]
+
+[feature.tasks-lint.tasks.lint-robot-dryrun]
+cmd = "python scripts/atest.py --dryrun"
+inputs = ["atest/", "scripts/atest.py", "!**/__pycache__/", "!**/.ipynb_checkpoints"]
+
+[feature.tasks-lint.tasks.fix-prettier]
+cmd = "jlpm lint:prettier"
+depends-on = ["setup-js"]
+inputs = [
+  ".prettierignore",
+  "*.*{md,json,yml,yaml}",
+  "node_modules/.yarn-state.yml",
+  "{style,js,.github,examples,lite,atest,docs,scripts}/**/*.{css,md,json,yml,yaml,ts,tsx}",
+]
+
+[feature.tasks-lint.tasks.fix-nblint]
+cmd = "python scripts/nblint.py examples"
+depends-on = ["setup-js"]
+inputs = ["examples/", "!**/{.ipynb_checkpoints,__pycache__}/"]
+
+[feature.tasks-lint.tasks.lint-actionlint]
+cmd = "actionlint -shellcheck=shellcheck -pyflakes=pyflakes"
+inputs = [".github/workflows"]
+
+# interactive development ##############################################################
+[feature.tasks-dev.tasks.pip-dev]
+cmd = """pixi r -e dev pip-editable--"""
+inputs = ["pyproject.toml"]
+outputs = ["build/pip-freeze/dev.txt"]
+
+[feature.tasks-dev.tasks.lab]
+depends-on = ["pip-dev"]
+cmd = "jupyter lab --no-browser"
+
+# dependencies #########################################################################
+[feature.deps-js.dependencies]
+nodejs = "22.*"
+
+[feature.deps-py.dependencies]
+python = ">=3.9"
+
+[feature.deps-run.dependencies]
+ipython = ">=7"
+ipywidgets = ">=7.5.1,<8"
+jupyterlab = ">=3,<4"
+jupyterlab-lsp = ">=3.5,<4"
+jupyter-lsp-python-plugins = "*"
+python = ">=3.7"
+rdflib = ">6"
+gql ="*"
+
+[feature.deps-pip.dependencies]
+pip = "*"
+flit-core = "*"
+
+[feature.deps-flit.dependencies]
+flit-core = ">=3.9.0,<4"
+
+[feature.deps-build.dependencies]
+python-build = "*"
+twine = "*"
+readme_renderer = "*"
+
+
+[feature.release-deps.dependencies]
+rattler-build = "*"
+
+[feature.test-deps.dependencies]
+nbmake = "*"
+pytest = "*"
+pytest-html = "*"
+pytest-asyncio = "*"
+pytest-cov = "*"
+pytest-xdist = "*"
+
+[feature.deps-lint.dependencies]
+taplo = "*"
+ruff = "*"
+nbconvert-core = "*"
+actionlint-with-all = "*"
+
+[environments]
+build = {features = [
+  "deps-build",
+  "deps-flit",
+  "deps-js",
+  "deps-py",
+  "tasks-build",
+]}
+dev = {features = [
+  "deps-build",
+  "deps-flit",
+  "deps-js",
+  "deps-pip",
+  "deps-py",
+  "deps-run",
+  "tasks-dev",
+]}
+lint = {features = [
+  "deps-py",
+  "deps-js",
+  "deps-lint",
+  "tasks-lint",
+]}
+release = ["release-tasks", "release-deps", "deps-build", "deps-run"]
+test = ["test-tasks", "test-deps", "deps-run",]
+

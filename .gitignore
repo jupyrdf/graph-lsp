@@ -173,3 +173,6 @@ atest/output
 # pre-built servers
 
 jupyterlab_graph_lsp/servers/static/
+.pixi
+.mypy_cache
+_d/

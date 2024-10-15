@@ -4,7 +4,7 @@
 import {
   IForeignCodeExtractorsRegistry,
   RegExpForeignCodeExtractor,
-} from '@krassowski/jupyterlab-lsp';
+} from '@jupyter-lsp/jupyterlab-lsp';
 
 export const graphExtractors: IForeignCodeExtractorsRegistry = {
   // general note: to match new lines use [^] instead of dot, unless the target is ES2018, then use /s
@@ -12,23 +12,23 @@ export const graphExtractors: IForeignCodeExtractorsRegistry = {
     new RegExpForeignCodeExtractor({
       language: 'sparql',
       pattern: '^%%(sparql|sparul)( .*?)?\\n([^]*)',
-      foreign_capture_groups: [3],
-      is_standalone: true,
-      file_extension: 'sparql',
+      foreignCaptureGroups: [3],
+      isStandalone: true,
+      fileExtension: 'sparql',
     }),
     new RegExpForeignCodeExtractor({
       language: 'turtle',
       pattern: '^%%(ttl|turtle)( .*?)?\n([^]*)',
-      foreign_capture_groups: [3],
-      is_standalone: true,
-      file_extension: 'ttl',
+      foreignCaptureGroups: [3],
+      isStandalone: true,
+      fileExtension: 'ttl',
     }),
     new RegExpForeignCodeExtractor({
       language: 'graphql',
       pattern: '^%%(graphql)( .*?)?\n([^]*)',
-      foreign_capture_groups: [3],
-      is_standalone: true,
-      file_extension: 'graphql',
+      foreignCaptureGroups: [3],
+      isStandalone: true,
+      fileExtension: 'graphql',
     }),
   ],
 };

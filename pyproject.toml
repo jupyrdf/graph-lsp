@@ -1,0 +1,59 @@
+# Copyright (c) 2021 Dane Freeman.
+# Distributed under the terms of the Modified BSD License.
+
+# we source whatever we can from package.json
+[build-system]
+requires = ["flit_core >=3.9.0,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "jupyterlab-graph-lsp"
+version = "0.2.0"
+description = "ELK widget for Jupyter"
+authors = [
+    {name = "jupyterlab-graph-lsp Contributors", email = "dane.freeman@gtri.gatech.edu"},
+]
+readme = "README.md"
+classifiers = [
+    "Framework :: Jupyter",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "License :: OSI Approved :: BSD License",
+    "Programming Language :: Python",
+]
+requires-python = ">=3.9"
+dependencies = [
+    "jupyterlab-lsp >=3.5,<4",
+]
+keywords = [
+    "Interactive",
+    "Language Server",
+    "LSP",
+    "Graphs",
+]
+
+
+[project.entry-points.jupyter_lsp_spec_v1]
+stardog-graphql-language-server = "jupyterlab_graph_lsp.specs:graphql"
+sparql-language-server = "jupyterlab_graph_lsp.specs:sparql"
+turtle-language-server = "jupyterlab_graph_lsp.specs:turtle"
+
+
+[project.urls]
+"Bug Tracker" = "https://github.com/jupyrdf/jupyterlab-graph-lsp/issues"
+"Source" = "https://github.com/jupyrdf/jupyterlab-graph-lsp"
+
+[tool.pytest.ini_options]
+junit_family="xunit2"
+addopts = """
+    --pyargs
+    jupyterlab_graph_lsp
+    --cov jupyterlab_graph_lsp
+    --cov-report term-missing:skip-covered
+    --cov-report html:build/htmlcov
+    --html=build/pytest.html
+    --self-contained-html
+    --cov-fail-under 100
+    -p no:warnings
+"""
+
